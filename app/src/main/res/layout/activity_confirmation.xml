@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg"
+    tools:context=".RegisterActivity">
+
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="411dp"
+        android:layout_height="208dp"
+        android:src="@drawable/pyplogo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/confirmation_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="Confirmation"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/logo" />
+
+    <TextView
+        android:id="@+id/confirmation_subtitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Fill out your profile"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        app:layout_constraintTop_toBottomOf="@+id/confirmation_title"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        android:layout_marginTop="5dp"/>
+
+    <EditText
+        android:id="@+id/fname"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/edittext_gray"
+        android:backgroundTint="@color/white"
+        android:hint="Firstname"
+        android:inputType="text"
+        android:padding="14dp"
+        android:textStyle=""
+        android:textColor="@color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/confirmation_subtitle"
+        app:layout_constraintWidth_percent="0.9" />
+
+    <EditText
+        android:id="@+id/lname"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Lastname"
+        android:inputType="text"
+        android:background="@drawable/edittext_gray"
+        android:backgroundTint="@color/white"
+        android:padding="14dp"
+        android:textColor="@color/black"
+        app:layout_constraintTop_toBottomOf="@+id/fname"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintWidth_percent="0.9"
+        android:layout_marginTop="10dp"/>
+
+    <EditText
+        android:id="@+id/nname"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Nickname"
+        android:inputType="text"
+        android:background="@drawable/edittext_gray"
+        android:backgroundTint="@color/white"
+        android:padding="14dp"
+        android:textColor="@color/black"
+        app:layout_constraintTop_toBottomOf="@+id/lname"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintWidth_percent="0.9"
+        android:layout_marginTop="10dp"/>
+
+    <EditText
+        android:id="@+id/studentid"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Student ID"
+        android:inputType="number"
+        android:background="@drawable/edittext_gray"
+        android:backgroundTint="@color/white"
+        android:padding="14dp"
+        android:textColor="@color/black"
+        app:layout_constraintTop_toBottomOf="@+id/nname"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintWidth_percent="0.9"
+        android:layout_marginTop="10dp"/>
+
+    <TextView
+        android:id="@+id/photoFileNameTextView"
+        android:layout_width="188dp"
+        android:layout_height="42dp"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/edittext_gray"
+        android:padding="10dp"
+        android:text="No photo selected"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/studentid"
+        app:layout_constraintWidth_percent="0.9" />
+
+    <Button
+        android:id="@+id/selectPhotoButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/lightb"
+        android:text="Select Photo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/photoFileNameTextView" />
+
+    <Button
+        android:id="@+id/next"
+        android:layout_width="0dp"
+        android:layout_height="59dp"
+        android:backgroundTint="@color/lightb"
+        android:shadowColor="#000000"
+        android:shadowDx="4"
+        android:shadowDy="4"
+        android:shadowRadius="1.6"
+        android:text="Next"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        app:cornerRadius="20dp"
+        app:layout_constraintBottom_toTopOf="@+id/signin_layout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.609"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/selectPhotoButton"
+        app:layout_constraintVertical_bias="0.418"
+        app:layout_constraintWidth_percent="0.9" />
+
+    <LinearLayout
+        android:id="@+id/signin_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/nname"
+        app:layout_constraintVertical_bias="0.802">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Already have an account?"
+            android:textColor="@color/black"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/signin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:text="Sign in"
+            android:textColor="@color/green"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

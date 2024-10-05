@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "827106040341",
+    "project_id": "payapa-27f92",
+    "storage_bucket": "payapa-27f92.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:827106040341:android:ebbdff66c5e48667774c1c",
+        "android_client_info": {
+          "package_name": "com.example.payapa"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC8ivjBKeGQIOR6IWVfoVqXPnsRvD_vGA8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
