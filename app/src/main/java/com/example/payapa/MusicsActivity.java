@@ -1,5 +1,6 @@
 package com.example.payapa;
 
+import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
@@ -13,16 +14,33 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
+
 public class MusicsActivity extends AppCompatActivity {
 
     private String[] levels = {"Low", "Medium", "High"};
     private String selectedLevel = "";
+    private FirebaseFirestore db;
+    private FirebaseAuth mAuth;
+    private FirebaseUser currentUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_musics);
+
+        db = FirebaseFirestore.getInstance();
+        mAuth = FirebaseAuth.getInstance();
+        currentUser = mAuth.getCurrentUser();
 
         Button btnBack = findViewById(R.id.btn_back);
 
@@ -40,6 +58,7 @@ public class MusicsActivity extends AppCompatActivity {
                         .setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 if (!selectedLevel.isEmpty()) {
+                                    saveSelection(selectedLevel);
                                     Toast.makeText(MusicsActivity.this, "Selected: " + selectedLevel, Toast.LENGTH_SHORT).show();
                                     finish();
                                 } else {
@@ -57,5 +76,32 @@ public class MusicsActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void saveSelection(String level) {
+        if (currentUser != null) {
+            String userId = currentUser.getUid();
+
+            @SuppressLint("SimpleDateFormat")
+            SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy", Locale.getDefault());
+            String formattedTimestamp = sdf.format(new Date());
+
+            Map<String, Object> levelData = new HashMap<>();
+            levelData.put("user_id", userId);
+            levelData.put("selected_level", level);
+            levelData.put("timestamp", formattedTimestamp);
+
+            db.collection("user_selections")
+                    .document("Music")
+                    .set(levelData)
+                    .addOnSuccessListener(documentReference -> {
+                        Toast.makeText(MusicsActivity.this, "Level saved successfully!", Toast.LENGTH_SHORT).show();
+                    })
+                    .addOnFailureListener(e -> {
+                        Toast.makeText(MusicsActivity.this, "Error saving level: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    });
+        } else {
+            Toast.makeText(MusicsActivity.this, "No user logged in", Toast.LENGTH_SHORT).show();
+        }
     }
 }
