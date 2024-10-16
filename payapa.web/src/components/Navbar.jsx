@@ -9,8 +9,13 @@ import {
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import "../index.css";
 
+import { auth } from "../services/Firebase";
+import { signOut } from "firebase/auth";
+import { useNavigate } from "react-router-dom";
+
 function NavigationBar() {
   const [isMobile, setIsMobile] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const checkMobile = () => {
@@ -25,13 +30,22 @@ function NavigationBar() {
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
+      navigate("/"); 
+    } catch (error) {
+      console.error("Error signing out:", error);
+    }
+  };
+
   const popover = (
     <Popover id="popover-basic">
       <Popover.Header as="h3">User Menu</Popover.Header>
       <Popover.Body>
         <Nav.Link href="#profile">Profile</Nav.Link>
         <Nav.Link href="#settings">Settings</Nav.Link>
-        <Nav.Link href="#logout">Logout</Nav.Link>
+        <Nav.Link onClick={handleLogout}>Logout</Nav.Link>
       </Popover.Body>
     </Popover>
   );
@@ -54,9 +68,9 @@ function NavigationBar() {
           <OverlayTrigger trigger="click" placement="bottom" overlay={popover}>
             <Navbar.Text className="logout-mobile">
               {isMobile ? (
-                <span>
+                <Nav.Link onClick={handleLogout}>
                   <b className="text-danger">Logout</b>
-                </span>
+                </Nav.Link>
               ) : (
                 <AccountCircle sx={{ width: "30px", height: "30px" }} />
               )}
