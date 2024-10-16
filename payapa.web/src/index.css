@@ -6,6 +6,13 @@
   background-image: url(background.png);
   background-size: cover;
   backdrop-filter: blur(10px);
+  z-index: 1;
+}
+
+.content {
+  position: relative; /* Ensures that it follows the stacking context */
+  z-index: 2; /* Higher than the login-bg */
+  /* Additional styling for your content can go here */
 }
 
 .login-bg::before {

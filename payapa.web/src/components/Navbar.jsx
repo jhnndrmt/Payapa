@@ -44,14 +44,16 @@ function NavigationBar() {
   };
 
   const popover = (
-    <Popover id="popover-basic">
+    <Popover id="popover-basic" style={{ minWidth: "200px" }}>
       <Popover.Header as="h3">
-        {currentUser && <div>{currentUser.email}</div>}
+        {currentUser && (
+          <b className="text-dark cursor-pointer">{currentUser.email}</b>
+        )}
       </Popover.Header>
       <Popover.Body>
-        <Nav.Link href="#profile">Profile</Nav.Link>
-        <Nav.Link href="#settings">Settings</Nav.Link>
-        <Nav.Link onClick={handleLogout}>Logout</Nav.Link>
+        <Nav.Link onClick={handleLogout} className="text-danger">
+          <b>Logout</b>
+        </Nav.Link>
       </Popover.Body>
     </Popover>
   );
@@ -59,16 +61,16 @@ function NavigationBar() {
   return (
     <Navbar expand="lg" className="bg-body-tertiary">
       <Container className="d-flex justify-content-between align-items-center">
-        <Navbar.Brand href="#home">
+        <Navbar.Brand href="/dashboardd">
           <b>Payapa.</b>
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="mx-auto breadcrumb-nav d-flex align-items-center">
-            <Nav.Link href="#home" active>
+            <Nav.Link href="/dashboard" active>
               Dashboard
             </Nav.Link>
-            <Nav.Link href="#features">Students</Nav.Link>
+            <Nav.Link href="/student">Students</Nav.Link>
             <Nav.Link href="#pricing">Appointment</Nav.Link>
           </Nav>
           <OverlayTrigger trigger="click" placement="bottom" overlay={popover}>

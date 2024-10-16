@@ -6,7 +6,6 @@ import { UserProvider } from "./services/UserContext";
 
 import Login from "./pages/Login";
 import Main from "./pages/MainPage";
-import Dashboard from "./pages/Dashboard";
 
 function App() {
   return (
@@ -20,17 +19,17 @@ function App() {
           fontFamily: "Colon Mono, monospace",
         }}
       >
-        <UserProvider>
-          <Router>
-            <Toastify />
-            <Routes>
-              {/* Enter Route here */}
-              <Route path="/" element={<Login />} />
-              <Route path="/main" element={<Main />} />
-              <Route path="/dashboard" element={<Dashboard />} />
-            </Routes>
-          </Router>
-        </UserProvider>
+        <div className="content">
+          <UserProvider>
+            <Router>
+              <Toastify />
+              <Routes>
+                <Route path="/" element={<Login />} />
+                <Route path="/main/*" element={<Main />} />
+              </Routes>
+            </Router>
+          </UserProvider>
+        </div>
       </main>
     </>
   );

@@ -3,13 +3,13 @@ import "../index.css";
 
 import { Container, Breadcrumb } from "react-bootstrap";
 
-function Dashboard() {
+function Student() {
   return (
     <>
       <Container className="mt-5">
         <Breadcrumb>
           <Breadcrumb.Item href="#" active>
-            Dashboard
+            Student
           </Breadcrumb.Item>
         </Breadcrumb>
       </Container>
@@ -17,4 +17,4 @@ function Dashboard() {
   );
 }
 
-export default Dashboard;
+export default Student;
