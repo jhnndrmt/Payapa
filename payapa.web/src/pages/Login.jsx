@@ -1,4 +1,3 @@
-// LoginPage.js
 import { Container, Card, Form, Button } from "react-bootstrap";
 import "../index.css";
 import { auth } from "../services/Firebase";
@@ -6,11 +5,13 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { useUser } from "../services/UserContext";
 
 function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+  const { setCurrentUser } = useUser();
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -30,6 +31,7 @@ function LoginPage() {
       const user = userCredential.user;
 
       if (email === "test@gmail.com") {
+        setCurrentUser(user);
         toast.success("Logged in successfully");
         navigate("/main");
       }

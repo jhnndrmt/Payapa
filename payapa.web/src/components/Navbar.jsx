@@ -8,7 +8,9 @@ import {
 } from "react-bootstrap";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import "../index.css";
+import { toast } from "react-toastify";
 
+import { useUser } from "../services/UserContext";
 import { auth } from "../services/Firebase";
 import { signOut } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
@@ -16,6 +18,7 @@ import { useNavigate } from "react-router-dom";
 function NavigationBar() {
   const [isMobile, setIsMobile] = useState(false);
   const navigate = useNavigate();
+  const { currentUser } = useUser();
 
   useEffect(() => {
     const checkMobile = () => {
@@ -33,7 +36,8 @@ function NavigationBar() {
   const handleLogout = async () => {
     try {
       await signOut(auth);
-      navigate("/"); 
+      navigate("/");
+      toast.success("Logout successfully");
     } catch (error) {
       console.error("Error signing out:", error);
     }
@@ -41,7 +45,9 @@ function NavigationBar() {
 
   const popover = (
     <Popover id="popover-basic">
-      <Popover.Header as="h3">User Menu</Popover.Header>
+      <Popover.Header as="h3">
+        {currentUser && <div>{currentUser.email}</div>}
+      </Popover.Header>
       <Popover.Body>
         <Nav.Link href="#profile">Profile</Nav.Link>
         <Nav.Link href="#settings">Settings</Nav.Link>
