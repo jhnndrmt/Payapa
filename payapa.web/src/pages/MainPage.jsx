@@ -5,10 +5,10 @@ import "../index.css";
 function MainPage() {
   return (
     <>
-      <div className="login-bg">
+      <div>
         <NavigationBar />
         <div>
-          <p className="text-dark"> Test</p>
+          <p> Test</p>
         </div>
       </div>
     </>

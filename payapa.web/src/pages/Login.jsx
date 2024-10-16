@@ -39,7 +39,7 @@ function LoginPage() {
   };
 
   return (
-    <div className="login-bg">
+    <div>
       <Container className="centered">
         <Card className="glass-morphism py-5" style={{ width: "28rem" }}>
           <Card.Body>

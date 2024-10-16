@@ -11,12 +11,12 @@ function App() {
   return (
     <>
       <main
+        className="login-bg"
         style={{
           display: "flex",
           flexDirection: "column",
           minHeight: "100vh",
           fontFamily: "Colon Mono, monospace",
-          backgroundColor: "#ECE3CE",
         }}
       >
         <Router>
