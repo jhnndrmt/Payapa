@@ -34,6 +34,8 @@ function LoginPage() {
         setCurrentUser(user);
         toast.success("Logged in successfully");
         navigate("/dashboard");
+      } else {
+        toast.error("Admin Permission Needed");
       }
     } catch (error) {
       toast.error("Admin Permission Needed");
@@ -46,7 +48,7 @@ function LoginPage() {
         <Card className="glass-morphism py-5" style={{ width: "28rem" }}>
           <Card.Body>
             <Card.Title className="text-center text-dark mb-5">
-              <b> MIS Login</b>
+              <b>Administrator Login</b>
             </Card.Title>
             <Form onSubmit={handleLogin}>
               <Form.Group className="mb-3" controlId="formBasicEmail">
