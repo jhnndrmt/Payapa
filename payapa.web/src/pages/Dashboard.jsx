@@ -48,7 +48,7 @@ function Dashboard() {
 
   useEffect(() => {
     const handleResize = () => {
-      setIsMobile(window.innerWidth <= 1024);
+      setIsMobile(window.innerWidth <= 986);
     };
 
     window.addEventListener("resize", handleResize);
@@ -61,7 +61,7 @@ function Dashboard() {
 
   const handleUserClick = (user) => {
     setSelectedUser(user);
-    setShowModal(true);
+    setShowModal(isMobile);
   };
 
   const handleApprove = async () => {
