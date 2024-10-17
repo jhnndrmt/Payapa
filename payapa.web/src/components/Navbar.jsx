@@ -22,7 +22,7 @@ function NavigationBar() {
 
   useEffect(() => {
     const checkMobile = () => {
-      const mobile = window.innerWidth <= 768;
+      const mobile = window.innerWidth <= 986;
       setIsMobile(mobile);
       console.log("Is mobile:", mobile);
     };
@@ -61,7 +61,7 @@ function NavigationBar() {
   return (
     <Navbar expand="lg" className="bg-body-tertiary">
       <Container className="d-flex justify-content-between align-items-center">
-        <Navbar.Brand href="/dashboardd">
+        <Navbar.Brand href="/dashboard">
           <b>Payapa.</b>
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />

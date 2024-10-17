@@ -51,8 +51,8 @@
   justify-content: center;
 }
 
-@media (max-width: 768px) {
-  @media (max-width: 768px) {
+@media (max-width: 986px) {
+  @media (max-width: 986px) {
     .breadcrumb-nav {
       justify-content: flex-start !important;
       margin: 0 !important;
