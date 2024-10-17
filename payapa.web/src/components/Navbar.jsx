@@ -14,11 +14,12 @@ import { useUser } from "../services/UserContext";
 import { auth } from "../services/Firebase";
 import { signOut } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 function NavigationBar() {
   const [isMobile, setIsMobile] = useState(false);
   const navigate = useNavigate();
-  const { currentUser } = useUser();
+  const { currentUser, setCurrentUser } = useUser();
 
   useEffect(() => {
     const checkMobile = () => {
@@ -36,10 +37,12 @@ function NavigationBar() {
   const handleLogout = async () => {
     try {
       await signOut(auth);
+      setCurrentUser(null);
       navigate("/");
       toast.success("Logout successfully");
     } catch (error) {
       console.error("Error signing out:", error);
+      toast.error("Error logging out. Please try again.");
     }
   };
 
@@ -67,10 +70,12 @@ function NavigationBar() {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="mx-auto breadcrumb-nav d-flex align-items-center">
-            <Nav.Link href="/dashboard" active>
+            <Nav.Link as={Link} to="/dashboard" active>
               Dashboard
             </Nav.Link>
-            <Nav.Link href="/student">Students</Nav.Link>
+            <Nav.Link as={Link} to="/student">
+              Students
+            </Nav.Link>
             <Nav.Link href="#pricing">Appointment</Nav.Link>
           </Nav>
           <OverlayTrigger trigger="click" placement="bottom" overlay={popover}>

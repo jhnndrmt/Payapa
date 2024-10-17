@@ -12,24 +12,37 @@ import { UserProvider } from "./services/UserContext";
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 import Student from "./pages/Students";
-import NavigationBar from "./components/NavBar";
 
-// Create a wrapper component to conditionally render the NavigationBar
+import NavigationBar from "./components/NavBar";
+import PrivateRoute from "./components/PrivateRoute";
+
 function AppContent() {
   const location = useLocation();
 
-  // Hide the NavigationBar on the login page
   const hideNavBar = location.pathname === "/";
 
   return (
     <>
-      {/* Conditionally render the NavigationBar */}
       {!hideNavBar && <NavigationBar />}
       <Toastify />
       <Routes>
         <Route path="/" element={<Login />} />
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/student" element={<Student />} />
+        <Route
+          path="/dashboard"
+          element={
+            <PrivateRoute>
+              <Dashboard />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/student"
+          element={
+            <PrivateRoute>
+              <Student />
+            </PrivateRoute>
+          }
+        />
       </Routes>
     </>
   );
@@ -49,7 +62,7 @@ function App() {
       <div className="content">
         <UserProvider>
           <Router>
-            <AppContent /> {/* AppContent wrapped within the Router */}
+            <AppContent />
           </Router>
         </UserProvider>
       </div>
