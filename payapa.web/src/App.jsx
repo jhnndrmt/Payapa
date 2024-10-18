@@ -12,6 +12,7 @@ import { UserProvider } from "./services/UserContext";
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 import Student from "./pages/Students";
+import Appointments from "./pages/Appointment";
 
 import NavigationBar from "./components/NavBar";
 import PrivateRoute from "./components/PrivateRoute";
@@ -40,6 +41,14 @@ function AppContent() {
           element={
             <PrivateRoute>
               <Student />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/appointments"
+          element={
+            <PrivateRoute>
+              <Appointments />
             </PrivateRoute>
           }
         />

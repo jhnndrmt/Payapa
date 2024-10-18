@@ -85,7 +85,13 @@ function NavigationBar() {
             >
               Students
             </Nav.Link>
-            <Nav.Link href="#pricing">Appointment</Nav.Link>
+            <Nav.Link
+              as={Link}
+              to="/appointments"
+              active={location.pathname === "/appointments"}
+            >
+              Appointments
+            </Nav.Link>{" "}
           </Nav>
           <OverlayTrigger trigger="click" placement="bottom" overlay={popover}>
             <Navbar.Text className="logout-mobile">
