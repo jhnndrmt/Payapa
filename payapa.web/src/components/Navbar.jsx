@@ -13,12 +13,13 @@ import { toast } from "react-toastify";
 import { useUser } from "../services/UserContext";
 import { auth } from "../services/Firebase";
 import { signOut } from "firebase/auth";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { Link } from "react-router-dom";
 
 function NavigationBar() {
   const [isMobile, setIsMobile] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
   const { currentUser, setCurrentUser } = useUser();
 
   useEffect(() => {
@@ -70,10 +71,18 @@ function NavigationBar() {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="mx-auto breadcrumb-nav d-flex align-items-center">
-            <Nav.Link as={Link} to="/dashboard" active>
+            <Nav.Link
+              as={Link}
+              to="/dashboard"
+              active={location.pathname === "/dashboard"}
+            >
               Dashboard
             </Nav.Link>
-            <Nav.Link as={Link} to="/student">
+            <Nav.Link
+              as={Link}
+              to="/student"
+              active={location.pathname === "/student"}
+            >
               Students
             </Nav.Link>
             <Nav.Link href="#pricing">Appointment</Nav.Link>
