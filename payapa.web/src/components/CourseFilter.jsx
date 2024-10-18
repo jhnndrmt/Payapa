@@ -48,16 +48,18 @@ const FilterDropdown = ({ onSelect }) => {
             top: "30px",
             right: "0",
             zIndex: 1000,
+            maxHeight: "200px",
+            overflowY: "auto",
           }}
         >
+          <Dropdown.Item onClick={() => handleSelect("")}>
+            All Courses
+          </Dropdown.Item>
           {courses.map((course) => (
             <Dropdown.Item key={course} onClick={() => handleSelect(course)}>
               {course}
             </Dropdown.Item>
           ))}
-          <Dropdown.Item onClick={() => handleSelect("")}>
-            All Courses
-          </Dropdown.Item>
         </Dropdown.Menu>
       )}
     </div>
