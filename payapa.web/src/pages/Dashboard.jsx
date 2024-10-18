@@ -21,30 +21,14 @@ import {
   updateDoc,
   deleteDoc,
 } from "firebase/firestore";
+import useFetchUsers from "../hooks/useFetchUsers";
 
 function Dashboard() {
-  const [users, setUsers] = useState([]);
+  const { users } = useFetchUsers();
   const [selectedUser, setSelectedUser] = useState(null);
   const [isImageLoading, setIsImageLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
-
-  useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        const querySnapshot = await getDocs(collection(firestore, "users"));
-        const usersList = querySnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-        setUsers(usersList);
-      } catch (error) {
-        console.error("Error fetching users:", error);
-      }
-    };
-
-    fetchUsers();
-  }, []);
 
   useEffect(() => {
     const handleResize = () => {
@@ -79,7 +63,7 @@ function Dashboard() {
       await deleteDoc(userRef);
       toast.error("User declined and removed from the database.");
 
-      setUsers((prevUsers) =>
+      users((prevUsers) =>
         prevUsers.filter((user) => user.id !== selectedUser.id)
       );
 
