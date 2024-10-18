@@ -51,6 +51,10 @@
   justify-content: center;
 }
 
+.cursor-pointer {
+  cursor: pointer;
+}
+
 @media (max-width: 986px) {
   @media (max-width: 986px) {
     .breadcrumb-nav {
