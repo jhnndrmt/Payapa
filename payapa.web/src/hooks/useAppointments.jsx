@@ -19,12 +19,16 @@ const useAppointments = () => {
             const appointmentId = appointmentDoc.id;
             const appointmentData = appointmentDoc.data();
 
+            console.log("Appointment Data:", appointmentData);
+
             // Try to fetch the matching user by document ID
             const userDocRef = doc(firestore, "users", appointmentId); // Assuming user doc id is same as appointment id
             const userDoc = await getDoc(userDocRef);
 
             if (userDoc.exists()) {
               const userData = userDoc.data();
+              console.log("Fetched User Data:", userData);
+
               return {
                 id: appointmentId,
                 ...appointmentData,
@@ -32,6 +36,9 @@ const useAppointments = () => {
                   firstName: userData.firstName,
                   lastName: userData.lastName,
                   email: userData.email,
+                  reasonForStress:
+                    appointmentData.reasonForStress ||
+                    "No reason for stress provided",
                 },
               };
             } else {

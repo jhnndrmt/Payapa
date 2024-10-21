@@ -55,6 +55,11 @@
   cursor: pointer;
 }
 
+.blurred {
+  filter: blur(5px); /* Adjust the blur intensity as needed */
+  pointer-events: none; /* Prevent interaction with blurred content */
+}
+
 @media (max-width: 986px) {
   @media (max-width: 986px) {
     .breadcrumb-nav {
