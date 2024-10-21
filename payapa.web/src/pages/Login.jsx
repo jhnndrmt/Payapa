@@ -1,47 +1,9 @@
 import { Container, Card, Form, Button } from "react-bootstrap";
 import "../index.css";
-import { auth } from "../services/Firebase";
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { useState } from "react";
-import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
-import { useUser } from "../services/UserContext";
+import useLogin from "../hooks/useLogin";
 
 function LoginPage() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const navigate = useNavigate();
-  const { setCurrentUser } = useUser();
-
-  const handleLogin = async (e) => {
-    e.preventDefault();
-
-    if (!email || !password) {
-      toast.error("Please enter both email and password");
-      return;
-    }
-
-    try {
-      const userCredential = await signInWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
-
-      const user = userCredential.user;
-
-      if (email === "test@gmail.com") {
-        setCurrentUser(user);
-        toast.success("Logged in successfully");
-        navigate("/dashboard");
-      } else {
-        toast.error("Admin Permission Needed");
-      }
-    } catch (error) {
-      toast.error("Admin Permission Needed");
-    }
-  };
-
+  const { email, setEmail, password, setPassword, handleLogin } = useLogin();
   return (
     <div>
       <Container className="centered">

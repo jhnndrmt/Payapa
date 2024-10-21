@@ -201,7 +201,7 @@ function Appointments() {
                               >
                                 {savingLoading ? (
                                   <>
-                                    Confirming... <Spinner animation="border" />
+                                    <Spinner animation="border" />
                                   </>
                                 ) : (
                                   "Confirm Appointment"
