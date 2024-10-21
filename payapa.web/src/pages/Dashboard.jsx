@@ -104,7 +104,7 @@ function Dashboard() {
                 <Row>
                   <div className="mb-3">
                     <Card>
-                      <Card.Body>
+                      <Card.Header>
                         {selectedUser ? (
                           <>
                             <div className="d-flex justify-content-between align-items-center">
@@ -129,7 +129,7 @@ function Dashboard() {
                         ) : (
                           <p>Select a student to view details</p>
                         )}
-                      </Card.Body>
+                      </Card.Header>
                     </Card>
                   </div>
 

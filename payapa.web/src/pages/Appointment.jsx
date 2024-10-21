@@ -71,14 +71,14 @@ function Appointments() {
               <Col sm={8}>
                 <div>
                   <Card>
-                    <Card.Body>
+                    <Card.Header>
                       {selectedUser ? (
                         <>
                           <div className="d-flex justify-content-between align-items-center">
                             <h4 className="mb-0">{`${selectedUser.firstName} ${selectedUser.lastName}`}</h4>
                             <div>
                               <Button
-                                variant="success"
+                                variant="outline-secondary"
                                 className="me-2 d-flex justify-content-between align-items-center"
                                 size="sm"
                                 onClick={handleSetAppointmentClick}
@@ -91,18 +91,16 @@ function Appointments() {
                       ) : (
                         <p>Select a student to view details</p>
                       )}
-                    </Card.Body>
+                    </Card.Header>
                   </Card>
                 </div>
                 <Row className="mt-3">
                   <Col>
                     <Card>
-                      <Card.Header>
-                        <div className="d-flex justify-content-between align-items-center">
+                      <Card.Body>
+                        <div className="d-flex justify-content-between align-items-center mb-2">
                           <strong>Message</strong>
                         </div>
-                      </Card.Header>
-                      <Card.Body>
                         {selectedUser && selectedUser.reasonForStress ? (
                           <textarea
                             value={selectedUser.reasonForStress}
