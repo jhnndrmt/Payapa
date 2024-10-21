@@ -33,6 +33,7 @@ const useAppointments = () => {
                 id: appointmentId,
                 ...appointmentData,
                 user: {
+                  uid: userDoc.id,
                   firstName: userData.firstName,
                   lastName: userData.lastName,
                   email: userData.email,

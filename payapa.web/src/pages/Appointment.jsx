@@ -13,12 +13,22 @@ import {
 } from "react-bootstrap";
 
 import useAppointments from "../hooks/useAppointments";
+import useSaveAppointment from "../hooks/useSaveAppointment";
 import AddIcon from "@mui/icons-material/Add";
+import { toast } from "react-toastify";
 
 function Appointments() {
   const { appointments = [], loading, error } = useAppointments();
+  const {
+    saveAppointment,
+    loading: savingLoading,
+    error: savingError,
+  } = useSaveAppointment();
   const [selectedUser, setSelectedUser] = useState(null);
   const [showAppointmentForm, setShowAppointmentForm] = useState(false);
+  const [appointmentDate, setAppointmentDate] = useState("");
+  const [appointmentTime, setAppointmentTime] = useState("");
+  const [appointmentMessage, setAppointmentMessage] = useState("");
 
   const handleUserClick = (appointment) => {
     setSelectedUser(appointment.user);
@@ -27,6 +37,31 @@ function Appointments() {
 
   const handleSetAppointmentClick = () => {
     setShowAppointmentForm(!showAppointmentForm);
+  };
+
+  const handleConfirmAppointment = async () => {
+    if (selectedUser) {
+      if (!appointmentDate || !appointmentTime || !appointmentMessage) {
+        toast.error("Please fill in all the fields.");
+        return;
+      }
+
+      const appointmentData = {
+        userId: selectedUser.uid,
+        date: appointmentDate,
+        time: appointmentTime,
+        message: appointmentMessage,
+      };
+
+      const success = await saveAppointment(appointmentData);
+      if (success) {
+        toast.success("The appointment has been successfully scheduled");
+        setShowAppointmentForm(false);
+        setAppointmentDate("");
+        setAppointmentTime("");
+        setAppointmentMessage("");
+      }
+    }
   };
 
   return (
@@ -120,29 +155,57 @@ function Appointments() {
                           <Form>
                             <Form.Group controlId="appointmentDate">
                               <Form.Label>Appointment Date</Form.Label>
-                              <Form.Control type="date" />
+                              <Form.Control
+                                type="date"
+                                value={appointmentDate}
+                                onChange={(e) =>
+                                  setAppointmentDate(e.target.value)
+                                }
+                                required
+                              />
                             </Form.Group>
                             <Form.Group
                               controlId="appointmentTime"
                               className="mt-3"
                             >
                               <Form.Label>Appointment Time</Form.Label>
-                              <Form.Control type="time" />
+                              <Form.Control
+                                type="time"
+                                value={appointmentTime}
+                                onChange={(e) =>
+                                  setAppointmentTime(e.target.value)
+                                }
+                                required
+                              />
                             </Form.Group>
                             <Form.Group
                               controlId="appointmentMessage"
                               className="mt-3"
                             >
                               <Form.Label>Appointment Message</Form.Label>
-                              <Form.Control as="textarea" />
+                              <Form.Control
+                                as="textarea"
+                                value={appointmentMessage}
+                                onChange={(e) =>
+                                  setAppointmentMessage(e.target.value)
+                                }
+                                required
+                              />
                             </Form.Group>
                             <div className="d-flex justify-content-end">
                               <Button
                                 variant="primary"
                                 className="mt-3"
                                 size="sm"
+                                onClick={handleConfirmAppointment}
                               >
-                                Confirm Appointment
+                                {savingLoading ? (
+                                  <>
+                                    Confirming... <Spinner animation="border" />
+                                  </>
+                                ) : (
+                                  "Confirm Appointment"
+                                )}
                               </Button>
                             </div>
                           </Form>
