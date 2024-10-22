@@ -26,6 +26,6 @@ public class MessageActivity extends AppCompatActivity {
         webView.setWebViewClient(new WebViewClient()); // Use default WebViewClient
 
         // Load the deployed URL
-        webView.loadUrl("https://facebook.com");  // Replace with your deployed URL
+        webView.loadUrl("http://195.26.255.19:3000/");  // Replace with your deployed URL
     }
 }
