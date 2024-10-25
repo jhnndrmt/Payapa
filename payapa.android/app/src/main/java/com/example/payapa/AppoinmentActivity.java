@@ -122,7 +122,7 @@ public class AppoinmentActivity extends AppCompatActivity {
         appointment.put("firstName", firstName);
         appointment.put("concern", concern);
         appointment.put("reasonForStress", reasonForStress);
-        
+
         SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
         String formattedDate = sdf.format(new Date());
         appointment.put("timestamp", formattedDate);
