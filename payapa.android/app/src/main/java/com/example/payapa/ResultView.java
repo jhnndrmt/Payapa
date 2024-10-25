@@ -14,7 +14,14 @@ import android.graphics.Typeface;
 import android.widget.Toast;
 
 
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
 
 
 public class ResultView extends View {
@@ -24,17 +31,26 @@ public class ResultView extends View {
     private int textHeight;
     private Paint mPaintRectangle;
     private ArrayList<Result> mResults;
+    private ArrayList<String> savedResults;
+    private FirebaseFirestore db;
 
     public ResultView(Context context) {
         super(context);
+        initializeFirestore();
     }
 
     public ResultView(Context context, AttributeSet attrs){
         super(context, attrs);
+        initializeFirestore();
         mPaintRectangle = new Paint();
         mPaintRectangle.setColor(Color.YELLOW);
         rect = new RectF();  // Initialize rect
         initTextPaint();
+        savedResults = new ArrayList<>();
+    }
+
+    private void initializeFirestore() {
+        db = FirebaseFirestore.getInstance();
     }
 
 //    protected void updateTextView(String newText) {
@@ -77,7 +93,11 @@ public class ResultView extends View {
 
             canvas.drawText(combinedText, textX, textY, mPaintText);
 
+            savedResults.add(combinedText);
+
         }
+
+        saveResultsToFirestore();
     }
 
     private void initTextPaint() {
@@ -90,8 +110,43 @@ public class ResultView extends View {
 
     }
 
-
     public void setResults(ArrayList<Result> results) {
         mResults = results;
+        if (savedResults != null) {
+            savedResults.clear();
+        }
+    }
+
+    private void saveResultsToFirestore() {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        String timestamp = new SimpleDateFormat("MM/dd/yyyy", Locale.getDefault()).format(new Date());
+
+        for (String result : savedResults) {
+            // Split the result into percentage and label
+            String[] parts = result.split(" ", 2); // Assuming format: "95% LABEL_NAME"
+            if (parts.length < 2) continue;
+
+            String percentage = parts[0];
+            String label = parts[1];
+
+            // Prepare data for Firestore
+            Map<String, Object> data = new HashMap<>();
+            data.put("label", label);
+            data.put("percentage", percentage);
+            data.put("timestamp", timestamp);
+
+            // Save each result as a separate document
+            db.collection("detected_labels")
+                    .add(data)
+                    .addOnSuccessListener(documentReference ->
+                            Toast.makeText(getContext(), "Result saved to Firestore", Toast.LENGTH_SHORT).show())
+                    .addOnFailureListener(e ->
+                            Toast.makeText(getContext(), "Error saving result: " + e.getMessage(), Toast.LENGTH_SHORT).show());
+        }
+    }
+
+    // Method to get saved results for external use
+    public ArrayList<String> getSavedResults() {
+        return savedResults;
     }
 }
