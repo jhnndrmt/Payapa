@@ -38,8 +38,6 @@ public class GamesActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
 
-        LinearLayout tictac = findViewById(R.id.tictac);
-        LinearLayout cardflip = findViewById(R.id.cardflip);
         Button btnBack = findViewById(R.id.btn_back);
 
         btnBack.setOnClickListener(new View.OnClickListener() {
@@ -74,22 +72,6 @@ public class GamesActivity extends AppCompatActivity {
             }
         });
 
-
-        tictac.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(GamesActivity.this, TicTacToeActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        cardflip.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(GamesActivity.this, CardFlipActivityActivity.class);
-                startActivity(intent);
-            }
-        });
     }
 
     private void saveSelection(String level) {
