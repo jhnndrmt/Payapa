@@ -3,6 +3,7 @@ package com.example.payapa;
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -60,6 +61,7 @@ public class GamesActivity extends AppCompatActivity {
         });
     }
 
+    @SuppressLint("MissingSuperCall")
     @Override
     public void onBackPressed() {
         showLevelSelectionDialog();
@@ -67,31 +69,42 @@ public class GamesActivity extends AppCompatActivity {
 
     private void showLevelSelectionDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(GamesActivity.this);
-        builder.setTitle("Select Level")
-                .setSingleChoiceItems(levels, -1, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        selectedLevel = levels[which];
-                    }
-                })
-                .setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        if (!selectedLevel.isEmpty()) {
-                            saveSelection(selectedLevel);
-                            Toast.makeText(GamesActivity.this, "Selected: " + selectedLevel, Toast.LENGTH_SHORT).show();
-                            finish();
-                        } else {
-                            Toast.makeText(GamesActivity.this, "Please select a level", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                })
-                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.dismiss();
-                    }
-                });
+
+        // Inflate custom layout
+        LayoutInflater inflater = getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.stress_level_selection, null);
+        builder.setView(dialogView);
+
         AlertDialog dialog = builder.create();
+
+        // Set listeners for each level
+        dialogView.findViewById(R.id.low_stress_layout).setOnClickListener(v -> {
+            selectedLevel = "Low";
+            saveSelectionAndCloseDialog(dialog);
+        });
+
+        dialogView.findViewById(R.id.medium_stress_layout).setOnClickListener(v -> {
+            selectedLevel = "Medium";
+            saveSelectionAndCloseDialog(dialog);
+        });
+
+        dialogView.findViewById(R.id.high_stress_layout).setOnClickListener(v -> {
+            selectedLevel = "High";
+            saveSelectionAndCloseDialog(dialog);
+        });
+
         dialog.show();
+    }
+
+    private void saveSelectionAndCloseDialog(AlertDialog dialog) {
+        if (!selectedLevel.isEmpty()) {
+            saveSelection(selectedLevel);
+            Toast.makeText(GamesActivity.this, "Selected: " + selectedLevel, Toast.LENGTH_SHORT).show();
+            dialog.dismiss();
+            finish();
+        } else {
+            Toast.makeText(GamesActivity.this, "Please select a level", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void loadTasksFromJson() {
@@ -142,7 +155,7 @@ public class GamesActivity extends AppCompatActivity {
             levelData.put("timestamp", formattedTimestamp);
 
             db.collection("user_selections")
-                    .document("Games")
+                    .document("DailyTask")
                     .set(levelData)
                     .addOnSuccessListener(documentReference -> {
                         Toast.makeText(GamesActivity.this, "Level saved successfully!", Toast.LENGTH_SHORT).show();
