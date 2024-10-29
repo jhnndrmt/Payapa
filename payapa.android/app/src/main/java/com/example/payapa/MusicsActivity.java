@@ -10,9 +10,6 @@ import android.widget.Toast;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -47,35 +44,43 @@ public class MusicsActivity extends AppCompatActivity {
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(MusicsActivity.this);
-                builder.setTitle("Select Level")
-                        .setSingleChoiceItems(levels, -1, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                selectedLevel = levels[which];
-                            }
-                        })
-                        .setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                if (!selectedLevel.isEmpty()) {
-                                    saveSelection(selectedLevel);
-                                    Toast.makeText(MusicsActivity.this, "Selected: " + selectedLevel, Toast.LENGTH_SHORT).show();
-                                    finish();
-                                } else {
-                                    Toast.makeText(MusicsActivity.this, "Please select a level", Toast.LENGTH_SHORT).show();
-                                }
-                            }
-                        })
-                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                dialog.dismiss();
-                            }
-                        });
-                AlertDialog dialog = builder.create();
-                dialog.show();
+                showLevelSelectionDialog();
             }
         });
+    }
 
+    @Override
+    public void onBackPressed() {
+        showLevelSelectionDialog();
+    }
+
+    private void showLevelSelectionDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(MusicsActivity.this);
+        builder.setTitle("Select Level")
+                .setSingleChoiceItems(levels, -1, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        selectedLevel = levels[which];
+                    }
+                })
+                .setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        if (!selectedLevel.isEmpty()) {
+                            saveSelection(selectedLevel);
+                            Toast.makeText(MusicsActivity.this, "Selected: " + selectedLevel, Toast.LENGTH_SHORT).show();
+                            finish();
+                        } else {
+                            Toast.makeText(MusicsActivity.this, "Please select a level", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                })
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.dismiss();
+                    }
+                });
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
     private void saveSelection(String level) {
