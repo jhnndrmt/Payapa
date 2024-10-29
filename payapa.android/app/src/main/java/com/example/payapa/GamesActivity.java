@@ -55,34 +55,43 @@ public class GamesActivity extends AppCompatActivity {
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(GamesActivity.this);
-                builder.setTitle("Select Level")
-                        .setSingleChoiceItems(levels, -1, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                selectedLevel = levels[which];
-                            }
-                        })
-                        .setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                if (!selectedLevel.isEmpty()) {
-                                    saveSelection(selectedLevel);
-                                    Toast.makeText(GamesActivity.this, "Selected: " + selectedLevel, Toast.LENGTH_SHORT).show();
-                                    finish();
-                                } else {
-                                    Toast.makeText(GamesActivity.this, "Please select a level", Toast.LENGTH_SHORT).show();
-                                }
-                            }
-                        })
-                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                dialog.dismiss();
-                            }
-                        });
-                AlertDialog dialog = builder.create();
-                dialog.show();
+                showLevelSelectionDialog();
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        showLevelSelectionDialog();
+    }
+
+    private void showLevelSelectionDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(GamesActivity.this);
+        builder.setTitle("Select Level")
+                .setSingleChoiceItems(levels, -1, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        selectedLevel = levels[which];
+                    }
+                })
+                .setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        if (!selectedLevel.isEmpty()) {
+                            saveSelection(selectedLevel);
+                            Toast.makeText(GamesActivity.this, "Selected: " + selectedLevel, Toast.LENGTH_SHORT).show();
+                            finish();
+                        } else {
+                            Toast.makeText(GamesActivity.this, "Please select a level", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                })
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.dismiss();
+                    }
+                });
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
     private void loadTasksFromJson() {
