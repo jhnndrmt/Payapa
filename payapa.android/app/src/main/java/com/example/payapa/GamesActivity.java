@@ -35,6 +35,7 @@ public class GamesActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseUser currentUser;
     private TextView tvTask;
+    private Button btnCompleteTask;
     private List<Task> tasks;
 
     @Override
@@ -48,17 +49,23 @@ public class GamesActivity extends AppCompatActivity {
 
         tvTask = findViewById(R.id.tv_task);
         Button btnBack = findViewById(R.id.btn_back);
+        btnCompleteTask = findViewById(R.id.btn_complete_task);
 
         // Load and display a random task
         loadTasksFromJson();
         displayRandomTask();
 
-        btnBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showLevelSelectionDialog();
-            }
+
+        btnBack.setOnClickListener(v -> showLevelSelectionDialog());
+
+        btnCompleteTask.setOnClickListener(v -> {
+            markTaskAsComplete();
         });
+    }
+
+    private void markTaskAsComplete() {
+        Toast.makeText(GamesActivity.this, "Task completed!", Toast.LENGTH_SHORT).show();
+        displayRandomTask(); // Display next task after marking completion
     }
 
     @SuppressLint("MissingSuperCall")
