@@ -61,5 +61,6 @@ dependencies {
     implementation (libs.androidx.camera.view.v110alpha05)
 
     implementation (libs.guava)
+    implementation(libs.gson)
 
 }
