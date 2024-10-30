@@ -47,4 +47,10 @@
     <string name="detect">Detect</string>
     <string name="run_model">Running the model...</string>
 
+    <string name="suggestion_low">Your stress level is low! Keep up the good work. Take some time to enjoy your favorite activities, like playing games or spending time outdoors.</string>
+    <string name="suggestion_mid">Your stress level is moderate. Consider taking a break, practicing some deep breathing, or enjoying a hobby to recharge.</string>
+    <string name="suggestion_high">Your stress level is high. Remember to prioritize self-care. Try relaxing with meditation, going for a walk, or talking to someone you trust.</string>
+
+
+
 </resources>

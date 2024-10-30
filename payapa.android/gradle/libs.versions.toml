@@ -28,6 +28,7 @@ cameraView = "1.3.4"
 cameraLifecycle = "1.3.4"
 firebaseCrashlyticsBuildtools = "3.0.2"
 gson = "2.8.8"
+gridlayout = "1.0.0"
 
 [libraries]
 androidx-camera-camera2 = { module = "androidx.camera:camera-camera2", version.ref = "cameraLifecycleVersion" }
@@ -61,6 +62,7 @@ camera-view = { group = "androidx.camera", name = "camera-view", version.ref = "
 camera-lifecycle = { group = "androidx.camera", name = "camera-lifecycle", version.ref = "cameraLifecycle" }
 firebase-crashlytics-buildtools = { group = "com.google.firebase", name = "firebase-crashlytics-buildtools", version.ref = "firebaseCrashlyticsBuildtools" }
 gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
+androidx-gridlayout = { group = "androidx.gridlayout", name = "gridlayout", version.ref = "gridlayout" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

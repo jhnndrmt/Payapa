@@ -63,6 +63,9 @@
             android:name=".ProfileActivity"
             android:exported="false" />
         <activity
+            android:name=".SuggestionActivity"
+            android:exported="false" />
+        <activity
             android:name=".MainDetectActivity"
             android:exported="false" />
         <activity
