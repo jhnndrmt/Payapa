@@ -1,0 +1,44 @@
+{
+  "questions": [
+    {
+      "id": 1,
+      "text": "In the past 4 weeks, how often did you feel tired out for no good reason?"
+    },
+    {
+      "id": 2,
+      "text": "In the past 4 weeks, how often did you feel nervous?"
+    },
+    {
+      "id": 3,
+      "text": "In the past 4 weeks, how often did you feel so nervous that nothing could calm you down?"
+    },
+    {
+      "id": 4,
+      "text": "In the past 4 weeks, how often did you feel hopeless?"
+    },
+    {
+      "id": 5,
+      "text": "In the past 4 weeks, how often did you feel restless or fidgety?"
+    },
+    {
+      "id": 6,
+      "text": "In the past 4 weeks, how often did you feel so restless you could not sit still?"
+    },
+    {
+      "id": 7,
+      "text": "In the past 4 weeks, how often did you feel depressed?"
+    },
+    {
+      "id": 8,
+      "text": "In the past 4 weeks, how often did you feel that everything was an effort?"
+    },
+    {
+      "id": 9,
+      "text": "In the past 4 weeks, how often did you feel so sad that nothing could cheer you up?"
+    },
+    {
+      "id": 10,
+      "text": "In the past 4 weeks, how often did you feel worthless?"
+    }
+  ]
+}

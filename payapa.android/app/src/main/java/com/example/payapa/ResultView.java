@@ -1,6 +1,7 @@
 package com.example.payapa;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -98,6 +99,7 @@ public class ResultView extends View {
         }
 
         saveResultsToFirestore();
+        navigateToGamesActivity();
     }
 
     private void initTextPaint() {
@@ -142,6 +144,14 @@ public class ResultView extends View {
                             Toast.makeText(getContext(), "Result saved to Firestore", Toast.LENGTH_SHORT).show())
                     .addOnFailureListener(e ->
                             Toast.makeText(getContext(), "Error saving result: " + e.getMessage(), Toast.LENGTH_SHORT).show());
+        }
+    }
+
+    private void navigateToGamesActivity() {
+        Context context = getContext();
+        if (context != null) {
+            Intent intent = new Intent(context, QuestionActivity.class);
+            context.startActivity(intent);
         }
     }
 
