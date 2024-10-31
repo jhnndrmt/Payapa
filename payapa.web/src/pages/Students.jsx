@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "../index.css";
 
-import { Container, Breadcrumb, Card, Table } from "react-bootstrap";
+import { Container, Breadcrumb, Card, Table, Button } from "react-bootstrap";
 import useFetchUsers from "../hooks/useFetchUsers";
 import useStatus from "../hooks/useStatus";
 import useAverageStatus from "../hooks/useAverageStatus";
@@ -9,6 +9,8 @@ import FilterDropdown from "../components/CourseFilter";
 import StarIcon from "@mui/icons-material/Star";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
 import Tooltip from "@mui/material/Tooltip";
+import jsPDF from "jspdf";
+import html2canvas from "html2canvas";
 
 function Student() {
   const { users } = useFetchUsers();
@@ -38,6 +40,43 @@ function Student() {
     return stars;
   };
 
+  const downloadPDF = () => {
+    const doc = new jsPDF();
+    html2canvas(document.querySelector("#students-table")).then((canvas) => {
+      const imgData = canvas.toDataURL("image/png");
+      const imgProps = doc.getImageProperties(imgData);
+      const pdfWidth = doc.internal.pageSize.getWidth();
+      const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+      doc.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
+      doc.save("students.pdf");
+    });
+  };
+
+  const exportToCSV = () => {
+    const csvRows = [["Name", "ID", "Course", "Status", "Average Status"]];
+
+    filteredUsers.forEach((user) => {
+      const userLabel = labels.find((labelData) => labelData.id === user.id);
+      const userScore = score.find((scoreData) => scoreData.id === user.id);
+      const starCount = userScore ? Math.floor(userScore.score / 10) : 0;
+      csvRows.push([
+        `${user.firstName} ${user.lastName}`,
+        user.studentID,
+        user.course,
+        userLabel ? userLabel.label : "No Status",
+        starCount > 0 ? `${starCount} stars` : "No Average Status",
+      ]);
+    });
+
+    const csvContent =
+      "data:text/csv;charset=utf-8," +
+      csvRows.map((row) => row.join(",")).join("\n");
+    const link = document.createElement("a");
+    link.setAttribute("href", encodeURI(csvContent));
+    link.setAttribute("download", "students.csv");
+    link.click();
+  };
+
   return (
     <>
       <Container className="mt-5">
@@ -47,9 +86,31 @@ function Student() {
 
         <div>
           <Card>
-            <Card.Header>Students list</Card.Header>
+            <Card.Header>
+              <div className="d-flex justify-content-between align-items-center">
+                Students list
+                <div>
+                  <Button
+                    variant="outline-primary"
+                    onClick={downloadPDF}
+                    className="me-2"
+                    size="sm"
+                  >
+                    Download PDF
+                  </Button>
+                  <Button variant="secondary" size="sm" onClick={exportToCSV}>
+                    Export CSV
+                  </Button>
+                </div>
+              </div>
+            </Card.Header>
             <Card.Body>
-              <Table className="cursor-pointer" bordered hover>
+              <Table
+                className="cursor-pointer"
+                id="students-table"
+                bordered
+                hover
+              >
                 <thead>
                   <tr>
                     <th>Name</th>
