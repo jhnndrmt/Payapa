@@ -4,6 +4,7 @@ import { collection, getDocs } from "firebase/firestore";
 
 function useFetchUsers() {
   const [users, setUsers] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
@@ -18,13 +19,15 @@ function useFetchUsers() {
       } catch (err) {
         setError(err);
         console.error("Error fetching users:", err);
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchUsers();
   }, []);
 
-  return { users, error };
+  return { users, loading, error };
 }
 
 export default useFetchUsers;
