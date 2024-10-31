@@ -36,6 +36,8 @@ public class SuggestionActivity extends AppCompatActivity {
             stressIcon.setImageResource(R.drawable.sadicon);
         } else if ("High".equals(stressLevel)) {
             stressIcon.setImageResource(R.drawable.cryicon);
+        } else if ("Severe".equals(stressLevel)) {
+            stressIcon.setImageResource(R.drawable.severe_icon);
         }
 
         // Set the suggestion based on the stress level
@@ -48,6 +50,9 @@ public class SuggestionActivity extends AppCompatActivity {
                 break;
             case "High":
                 suggestionTextView.setText(R.string.suggestion_high);
+                break;
+            case "Severe":
+                suggestionTextView.setText(R.string.suggestion_severe);
                 break;
             default:
                 suggestionTextView.setText("");

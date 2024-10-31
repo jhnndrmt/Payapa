@@ -128,12 +128,14 @@ public class QuestionActivity extends AppCompatActivity {
     }
 
     private String determineStressLevel(int score) {
-        if (score >= 0 && score <= 20) {
+        if (score >= 1 && score <= 19) {
             return "Low";
-        } else if (score >= 21 && score <= 35) {
+        } else if (score >= 20 && score <= 24) {
             return "Mid";
-        } else if (score >= 36 && score <= 50) {
+        } else if (score >= 25 && score <= 29) {
             return "High";
+        } else if (score >= 30 && score <= 50) {
+            return "Severe";
         }
         return null;
     }

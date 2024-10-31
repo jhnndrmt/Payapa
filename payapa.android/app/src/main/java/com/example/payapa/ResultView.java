@@ -15,6 +15,8 @@ import android.graphics.Typeface;
 import android.widget.Toast;
 
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.text.SimpleDateFormat;
@@ -34,6 +36,8 @@ public class ResultView extends View {
     private ArrayList<Result> mResults;
     private ArrayList<String> savedResults;
     private FirebaseFirestore db;
+    private FirebaseAuth mAuth;
+    private FirebaseUser currentUser;
 
     public ResultView(Context context) {
         super(context);
@@ -120,12 +124,18 @@ public class ResultView extends View {
     }
 
     private void saveResultsToFirestore() {
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        mAuth = FirebaseAuth.getInstance();
+        currentUser = mAuth.getCurrentUser();
+        if (currentUser == null) {
+            Toast.makeText(getContext(), "User not authenticated", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        String userId = currentUser.getUid();
         String timestamp = new SimpleDateFormat("MM/dd/yyyy", Locale.getDefault()).format(new Date());
 
         for (String result : savedResults) {
-            // Split the result into percentage and label
-            String[] parts = result.split(" ", 2); // Assuming format: "95% LABEL_NAME"
+            String[] parts = result.split(" ", 2); // Split result into percentage and label
             if (parts.length < 2) continue;
 
             String percentage = parts[0];
@@ -137,15 +147,17 @@ public class ResultView extends View {
             data.put("percentage", percentage);
             data.put("timestamp", timestamp);
 
-            // Save each result as a separate document
+            // Save under user's document ID in `detected_labels` collection
             db.collection("detected_labels")
-                    .add(data)
+                    .document(userId) // Use userId as the document ID
+                    .set(data) // Add new label data
                     .addOnSuccessListener(documentReference ->
                             Toast.makeText(getContext(), "Result saved to Firestore", Toast.LENGTH_SHORT).show())
                     .addOnFailureListener(e ->
                             Toast.makeText(getContext(), "Error saving result: " + e.getMessage(), Toast.LENGTH_SHORT).show());
         }
     }
+
 
     private void navigateToGamesActivity() {
         Context context = getContext();

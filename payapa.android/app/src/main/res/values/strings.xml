@@ -47,9 +47,10 @@
     <string name="detect">Detect</string>
     <string name="run_model">Running the model...</string>
 
-    <string name="suggestion_low">Your stress level is low! Keep up the good work. Take some time to enjoy your favorite activities, like playing games or spending time outdoors.</string>
-    <string name="suggestion_mid">Your stress level is moderate. Consider taking a break, practicing some deep breathing, or enjoying a hobby to recharge.</string>
-    <string name="suggestion_high">Your stress level is high. Remember to prioritize self-care. Try relaxing with meditation, going for a walk, or talking to someone you trust.</string>
+    <string name="suggestion_low">Your stress level is low. Keep this peaceful energy going = tap into our Calm Tunes feature to enjoy soothing music curated just for moments like this.</string>
+    <string name="suggestion_mid">Your stress level is medium. Try our music and task features to relax and refocus.</string>
+    <string name="suggestion_high">Your stress level is high. Use our music, task features, articles, and diary to help you unwind and regain focus.</string>
+    <string name="suggestion_severe">Your stress level is severe. We highly recommend using our consultation feature.</string>
 
 
 
