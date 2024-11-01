@@ -52,31 +52,6 @@ function Student() {
     });
   };
 
-  const exportToCSV = () => {
-    const csvRows = [["Name", "ID", "Course", "Status", "Average Status"]];
-
-    filteredUsers.forEach((user) => {
-      const userLabel = labels.find((labelData) => labelData.id === user.id);
-      const userScore = score.find((scoreData) => scoreData.id === user.id);
-      const starCount = userScore ? Math.floor(userScore.score / 10) : 0;
-      csvRows.push([
-        `${user.firstName} ${user.lastName}`,
-        user.studentID,
-        user.course,
-        userLabel ? userLabel.label : "No Status",
-        starCount > 0 ? `${starCount} stars` : "No Average Status",
-      ]);
-    });
-
-    const csvContent =
-      "data:text/csv;charset=utf-8," +
-      csvRows.map((row) => row.join(",")).join("\n");
-    const link = document.createElement("a");
-    link.setAttribute("href", encodeURI(csvContent));
-    link.setAttribute("download", "students.csv");
-    link.click();
-  };
-
   return (
     <>
       <Container className="mt-5">
@@ -97,9 +72,6 @@ function Student() {
                     size="sm"
                   >
                     Download PDF
-                  </Button>
-                  <Button variant="secondary" size="sm" onClick={exportToCSV}>
-                    Export CSV
                   </Button>
                 </div>
               </div>
@@ -125,7 +97,6 @@ function Student() {
                 </thead>
                 <tbody>
                   {filteredUsers.map((user) => {
-                    // Find the matching label data by user ID
                     const userLabel = labels.find(
                       (labelData) => labelData.id === user.id
                     );
