@@ -34,17 +34,18 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/test"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:background="@drawable/rounded_button_background"
-        android:onClick="onDetectButtonClick"
-        android:text="test"
-
+        android:id="@+id/continueButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/dgreen"
+        android:text="Proceed to survey"
+        android:layout_marginEnd="20dp"
+        android:layout_marginStart="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         tools:ignore="OnClick" />
-
 
     <ProgressBar
         android:id="@+id/progressBar"

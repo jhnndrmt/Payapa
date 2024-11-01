@@ -53,7 +53,7 @@ public class MainDetectActivity extends AppCompatActivity {
 
     private ImageView mImageView;
     private ResultView mResultView;
-    private Button mButtonDetect;
+    private Button mButtonDetect, continueBtn;
     private TextView textViewDetection;
     private ProgressBar mProgressBar;
     private Bitmap mBitmap = null;
@@ -106,16 +106,18 @@ public class MainDetectActivity extends AppCompatActivity {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, 1);
         }
 
-
-
-        // Set layout
-        setContentView(R.layout.activity_main);
-//        textViewDetection = findViewById(R.id.textViewDetect);
-
+        continueBtn = findViewById(R.id.continueButton);
+        continueBtn.setVisibility(View.GONE);
+        continueBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainDetectActivity.this, QuestionActivity.class);
+                startActivity(intent);
+            }
+        });
 
         // Show image
         mImageView = findViewById(R.id.imageView);
-
         // Retrieve the captured image from the intent
         Bitmap capturedImage = getIntent().getParcelableExtra("captured_image");
 
@@ -182,6 +184,12 @@ public class MainDetectActivity extends AppCompatActivity {
                                 mResultView.setResults(results);
                                 mResultView.invalidate();
                                 mResultView.setVisibility(View.VISIBLE);
+
+                                if(results.isEmpty()) {
+                                    finish();
+                                } else {
+                                    continueBtn.setVisibility(View.VISIBLE);
+                                }
                             }
                         });
                     }
