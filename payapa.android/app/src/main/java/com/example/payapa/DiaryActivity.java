@@ -2,10 +2,15 @@ package com.example.payapa;
 
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
+import android.graphics.Typeface;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -58,6 +63,21 @@ public class DiaryActivity extends AppCompatActivity {
 
     private void showLevelSelectionDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(DiaryActivity.this);
+
+        TextView alertMessage = new TextView(this);
+        alertMessage.setText("On a scale of 1 to 3, how did the diary make you feel?");
+        alertMessage.setTextSize(14);
+        alertMessage.setTypeface(alertMessage.getTypeface(), Typeface.ITALIC);
+        alertMessage.setGravity(Gravity.CENTER);
+        alertMessage.setPadding(0, 40, 0, 0);
+        alertMessage.setLayoutParams(new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+
+        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) alertMessage.getLayoutParams();
+        params.setMargins(0, 40, 0, 20);
+        alertMessage.setLayoutParams(params);
+
+        builder.setCustomTitle(alertMessage);
 
         // Inflate custom layout
         LayoutInflater inflater = getLayoutInflater();
