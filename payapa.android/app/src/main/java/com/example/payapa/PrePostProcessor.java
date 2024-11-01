@@ -14,6 +14,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
+import java.util.List;
 
 class Result {
     int classIndex;
@@ -137,7 +138,7 @@ public class PrePostProcessor {
     }
 
     static ArrayList<Result> outputsToNMSPredictions(float[] outputs, float imgScaleX, float imgScaleY, float ivScaleX, float ivScaleY, float startX, float startY) {
-        ArrayList<Result> results = new ArrayList<>();
+        List<Result> results = new ArrayList<>();
         Log.i("Detection", "Start detection...");
         HashSet<Integer> classFound = new HashSet<>();
         //Log.wtf("WTF", String.valueOf(outputs.length));
@@ -145,33 +146,40 @@ public class PrePostProcessor {
         // outputs.length == mOutputRow*mOutputColumn + 4
         for (int i = 0; i< mOutputRow; i++) {
             if (outputs[i* mOutputColumn +4] > mThreshold) {
-                float x = outputs[i* mOutputColumn];
-                float y = outputs[i* mOutputColumn +1];
-                float w = outputs[i* mOutputColumn +2];
-                float h = outputs[i* mOutputColumn +3];
+                float x = outputs[i * mOutputColumn];
+                float y = outputs[i * mOutputColumn + 1];
+                float w = outputs[i * mOutputColumn + 2];
+                float h = outputs[i * mOutputColumn + 3];
 
-                float left = imgScaleX * (x - w/2);
-                float top = imgScaleY * (y - h/2);
-                float right = imgScaleX * (x + w/2);
-                float bottom = imgScaleY * (y + h/2);
+                float left = imgScaleX * (x - w / 2);
+                float top = imgScaleY * (y - h / 2);
+                float right = imgScaleX * (x + w / 2);
+                float bottom = imgScaleY * (y + h / 2);
 
-                float max = outputs[i* mOutputColumn +4]; //score
+                float max = outputs[i * mOutputColumn + 4]; //score
                 int cls = 0;
                 //Log.wtf("WTF", "**************************************");
-                for (int j = 0; j < mOutputColumn -5; j++) {
-                    if (outputs[i* mOutputColumn +5+j] > max) {
-                        max = outputs[i* mOutputColumn +5+j];
+                for (int j = 0; j < mOutputColumn - 5; j++) {
+                    if (outputs[i * mOutputColumn + 5 + j] > max) {
+                        max = outputs[i * mOutputColumn + 5 + j];
                         //Log.wtf("AA", String.valueOf(cls));
                         cls = j;
                         //Log.wtf("OK", String.valueOf(j) + " " + String.valueOf(cls));
                     }
                 }
                 classFound.add(cls);
-                Rect rect = new Rect((int)(startX+ivScaleX*left), (int)(startY+top*ivScaleY), (int)(startX+ivScaleX*right), (int)(startY+ivScaleY*bottom));
-                Result result = new Result(cls, outputs[i*mOutputColumn+4], rect);
+                Rect rect = new Rect((int) (startX + ivScaleX * left), (int) (startY + top * ivScaleY), (int) (startX + ivScaleX * right), (int) (startY + ivScaleY * bottom));
+                Result result = new Result(cls, outputs[i * mOutputColumn + 4], rect);
                 results.add(result);
+
             }
         }
+        Collections.sort(results, (o1, o2) -> o2.score.compareTo(o1.score));
+
+        if (!results.isEmpty()) {
+            results = results.subList(0, 1);
+        }
+
         Log.i("Detection", "Result found:" + Integer.toString(results.size()));
         for (int cls : classFound) {
             Log.i("Detection", mClasses[cls]);
@@ -179,6 +187,6 @@ public class PrePostProcessor {
         for (Result result : results) {
             Log.i("Match:", mClasses[result.classIndex] + " " + String.valueOf(result.score) );
         }
-        return nonMaxSuppression(results, mNmsLimit, mThreshold);
+        return nonMaxSuppression(new ArrayList<>(results), mNmsLimit, mThreshold);
     }
 }
