@@ -44,33 +44,27 @@
             android:padding="10dp">
 
             <TextView
-                android:id="@+id/textFirstName"
+                android:id="@+id/scheduledDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="First Name"
+                android:text="Date"
                 android:textStyle="bold"
                 android:textSize="18sp"
                 android:paddingBottom="4dp" />
 
             <TextView
-                android:id="@+id/textReasonForStress"
+                android:id="@+id/scheduledTime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Reason for Stress"
+                android:text="Time"
                 android:paddingBottom="4dp" />
 
             <TextView
-                android:id="@+id/textConcern"
+                android:id="@+id/appointmentMessage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Concern"
+                android:text="Message"
                 android:paddingBottom="4dp" />
-
-            <TextView
-                android:id="@+id/textTimestamp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Timestamp" />
 
         </LinearLayout>
     </androidx.cardview.widget.CardView>

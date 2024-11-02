@@ -25,7 +25,7 @@ public class ScheduledAppointmentActivity extends AppCompatActivity {
     private FirebaseFirestore db;
     private FirebaseAuth mAuth;
     private FirebaseUser currentUser;
-    private TextView textFirstName, textReasonForStress, textConcern, textTimestamp, noAppointmentText;
+    private TextView schedDate, schedTime, schedMessage, noAppointmentText;
     private androidx.cardview.widget.CardView appointmentCard;
     private ProgressBar loadingIndicator;
 
@@ -40,41 +40,41 @@ public class ScheduledAppointmentActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
 
-        textFirstName = findViewById(R.id.textFirstName);
-        textReasonForStress = findViewById(R.id.textReasonForStress);
-        textConcern = findViewById(R.id.textConcern);
-        textTimestamp = findViewById(R.id.textTimestamp);
+        schedDate = findViewById(R.id.scheduledDate);
+        schedTime = findViewById(R.id.scheduledTime);
+        schedMessage = findViewById(R.id.appointmentMessage);
         noAppointmentText = findViewById(R.id.noAppointmentText);
         appointmentCard = findViewById(R.id.appointmentCard);
         loadingIndicator = findViewById(R.id.loadingIndicator);
 
         if (currentUser != null) {
             String userId = currentUser.getUid();
+            Log.d("UserId", "User ID: " + userId);
 
             loadingIndicator.setVisibility(View.VISIBLE);
             appointmentCard.setVisibility(View.GONE);
             noAppointmentText.setVisibility(View.GONE);
 
-            // Access the user's appointments document by userId
-            db.collection("appointments")
+            // Access the user's scheduled appointments document by userId
+            db.collection("scheduledAppointments")
                     .document(userId)
                     .get()
                     .addOnCompleteListener(task -> {
+                        Log.d("ScheduledAppointments", "User ID: " + userId);
                         if (task.isSuccessful()) {
+
                             DocumentSnapshot document = task.getResult();
                             if (document.exists()) {
                                 appointmentCard.setVisibility(View.VISIBLE);
                                 noAppointmentText.setVisibility(View.GONE);
 
-                                String firstName = document.getString("firstName");
-                                String reasonForStress = document.getString("reasonForStress");
-                                String concern = document.getString("concern");
-                                String timestamp = document.getString("timestamp");
+                                String date = document.getString("date");
+                                String time = document.getString("time");
+                                String appointmentMessage = document.getString("message");
 
-                                textFirstName.setText("First Name: " + firstName);
-                                textReasonForStress.setText("Reason for Stress: " + reasonForStress);
-                                textConcern.setText("Concern: " + concern);
-                                textTimestamp.setText("Date: " + timestamp);
+                                schedDate.setText("Date: " + date);
+                                schedTime.setText("Time: " + time);
+                                schedMessage.setText("Message: " + appointmentMessage);
                             }  else {
                                 // Display 'No Appointment' message
                                 appointmentCard.setVisibility(View.GONE);
