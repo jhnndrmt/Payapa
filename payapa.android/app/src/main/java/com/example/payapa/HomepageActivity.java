@@ -87,7 +87,7 @@ public class HomepageActivity extends AppCompatActivity {
             public void handleOnBackPressed() {
                 if (doubleBackToExitPressedOnce) {
                     // Exit the app
-                    finishAffinity();
+//                    finishAffinity();
                 }
 
                 doubleBackToExitPressedOnce = true;

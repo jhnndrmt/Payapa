@@ -35,7 +35,7 @@ public class ManageprofileActivity extends AppCompatActivity {
     private EditText passwordEditText;
     private ImageView profileImageView;
     private Button uploadProfilePictureButton;
-    private Button saveChangesButton;
+    private Button saveChangesButton, logoutBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,9 +52,16 @@ public class ManageprofileActivity extends AppCompatActivity {
         profileImageView = findViewById(R.id.profileImageView);
         uploadProfilePictureButton = findViewById(R.id.uploadProfilePictureButton);
         saveChangesButton = findViewById(R.id.saveChangesButton);
+        logoutBtn = findViewById(R.id.logoutBtn);
 
-        // Get current user
         String userId = auth.getCurrentUser().getUid();
+
+        logoutBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                logoutUser();
+            }
+        });
 
         // Fetch user data from Firestore
         db.collection("users").document(userId).get()
@@ -111,6 +118,15 @@ public class ManageprofileActivity extends AppCompatActivity {
                 saveChanges();
             }
         });
+    }
+
+    private void logoutUser() {
+        auth.signOut();
+        Toast.makeText(this, "Logged out successfully.", Toast.LENGTH_SHORT).show();
+
+        Intent intent = new Intent(ManageprofileActivity.this, LoginActivity.class);
+        startActivity(intent);
+        finish();
     }
 
     private void openImagePicker() {

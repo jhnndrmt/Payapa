@@ -9,6 +9,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.text.TextUtils;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -24,6 +25,7 @@ public class LoginActivity extends AppCompatActivity {
     private Button loginButton;
     private TextView signupTextView;
     private FirebaseAuth mAuth;
+    private boolean doubleBackToExitPressedOnce = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +51,34 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
             }
         });
+
+        handleBackPress();
     }
+
+    private void handleBackPress() {
+        // Handle back press to exit app
+        OnBackPressedCallback callback = new OnBackPressedCallback(true /* enabled by default */) {
+            @Override
+            public void handleOnBackPressed() {
+                if (doubleBackToExitPressedOnce) {
+                    // Exit the app
+                    finishAffinity();
+                }
+
+                doubleBackToExitPressedOnce = true;
+                Toast.makeText(LoginActivity.this, "Press back again to exit", Toast.LENGTH_SHORT).show();
+
+                // Reset flag after 2 seconds
+                new android.os.Handler().postDelayed(
+                        () -> doubleBackToExitPressedOnce = false,
+                        2000 // 2 seconds delay
+                );
+            }
+        };
+
+        getOnBackPressedDispatcher().addCallback(this, callback);
+    }
+
 
     private void signIn(){
         String username = usernameEditText.getText().toString().trim();
