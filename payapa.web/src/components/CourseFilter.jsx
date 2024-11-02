@@ -14,28 +14,7 @@ const FilterDropdown = ({ onSelect }) => {
     setShowDropdown(false);
   };
 
-  const courses = [
-    "BSA",
-    "BSBAM",
-    "BSOA",
-    "BAC",
-    "BEE",
-    "BECE",
-    "BSNE",
-    "BSEM",
-    "BPE",
-    "BCAE",
-    "BSP",
-    "BSS",
-    "BSM",
-    "BSHM",
-    "BSTM",
-    "BSCE",
-    "BSEE",
-    "BSIT",
-    "BLIS",
-    "BSC",
-  ];
+  const courses = ["CITE", "CCJE", "CHUMS", "CTE", "CHTM", "CAS", "CEA", "COP"];
 
   return (
     <div style={{ position: "relative", display: "inline-block" }}>
