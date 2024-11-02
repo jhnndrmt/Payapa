@@ -20,7 +20,7 @@ public class ProfileActivity extends AppCompatActivity {
     private View music;
     private View diary;
     private View article;
-    private TextView consultation;
+    private TextView consultation, scheduledAppointment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +38,15 @@ public class ProfileActivity extends AppCompatActivity {
         diary = findViewById(R.id.diary);
         article = findViewById(R.id.article);
         consultation = findViewById(R.id.clicktoschedule);
+        scheduledAppointment = findViewById(R.id.scheduledAppointment);
+
+        scheduledAppointment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                startActivity(new Intent(ProfileActivity.this, ScheduledAppointmentActivity.class));
+            }
+        });
 
         settings.setOnClickListener(new View.OnClickListener() {
             @Override
