@@ -60,10 +60,13 @@ function Appointments() {
         setAppointmentDate("");
         setAppointmentTime("");
         setAppointmentMessage("");
+      } else if (savingError) {
+        toast.error("Failed to save appointment. Please try again.");
       }
+    } else {
+      toast.error("Please select a user to schedule an appointment.");
     }
   };
-
   return (
     <>
       <Container className="mt-5">
