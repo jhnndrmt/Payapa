@@ -36,6 +36,9 @@
             android:name=".ScheduledAppointmentActivity"
             android:exported="false" />
         <activity
+            android:name=".TermsConditionActivity"
+            android:exported="false" />
+        <activity
             android:name=".ConsultationActivity"
             android:exported="false" />
         <activity

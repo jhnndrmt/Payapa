@@ -82,7 +82,7 @@ public class Confirmation2Activity extends AppCompatActivity {
                     "gender", gender
             ).addOnSuccessListener(aVoid -> {
                 Toast.makeText(Confirmation2Activity.this, "Profile completed successfully.", Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(Confirmation2Activity.this, HomepageActivity.class));
+                startActivity(new Intent(Confirmation2Activity.this, TermsConditionActivity.class));
             }).addOnFailureListener(e -> {
                 Toast.makeText(Confirmation2Activity.this, "Failed to update profile.", Toast.LENGTH_SHORT).show();
             });
