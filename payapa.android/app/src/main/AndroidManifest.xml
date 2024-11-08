@@ -39,6 +39,15 @@
             android:name=".TermsConditionActivity"
             android:exported="false" />
         <activity
+            android:name=".AccountCreation"
+            android:exported="false" />
+        <activity
+            android:name=".AccountAdditionalCreation"
+            android:exported="false" />
+        <activity
+            android:name=".AccountCreationRegistration"
+            android:exported="false" />
+        <activity
             android:name=".ConsultationActivity"
             android:exported="false" />
         <activity

@@ -69,19 +69,19 @@ public class ManageprofileActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
                         if (documentSnapshot.exists()) {
-                            String name = documentSnapshot.getString("name");
-                            String nickname = documentSnapshot.getString("nickname");
+                            String firstName = documentSnapshot.getString("firstName");
+                            String username = documentSnapshot.getString("username");
                             String email = documentSnapshot.getString("email");
                             String profilePictureUrl = documentSnapshot.getString("profilePictureUrl");
 
                             // Debug logs to verify data
-                            Log.d("ManageprofileActivity", "Name: " + name);
-                            Log.d("ManageprofileActivity", "Nickname: " + nickname);
+                            Log.d("ManageprofileActivity", "Name: " + firstName);
+                            Log.d("ManageprofileActivity", "Nickname: " + username);
                             Log.d("ManageprofileActivity", "Email: " + email);
                             Log.d("ManageprofileActivity", "Profile Picture URL: " + profilePictureUrl);
 
                             // Set data to EditTexts
-                            nicknameEditText.setText(nickname != null ? nickname : (name != null ? name : ""));
+                            nicknameEditText.setText(firstName != null ? firstName : (username != null ? username : ""));
                             emailEditText.setText(email != null ? email : "");
 
                             // Load profile picture

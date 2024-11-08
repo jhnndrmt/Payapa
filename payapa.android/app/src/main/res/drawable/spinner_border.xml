@@ -1,0 +1,17 @@
+<!-- spinner_with_arrow.xml -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Background for the spinner -->
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="@color/white"/> <!-- Background color -->
+            <stroke
+                android:width="3dp"
+                android:color="@color/white"/> <!-- Border color and width -->
+            <corners android:radius="20dp"/> <!-- Rounded corners -->
+        </shape>
+    </item>
+    <!-- Dropdown arrow -->
+    <item android:drawable="@drawable/baseline_arrow_drop_down_24"
+        android:gravity="end|center_vertical"
+        /> <!-- Arrow icon aligned to the right -->
+</layer-list>

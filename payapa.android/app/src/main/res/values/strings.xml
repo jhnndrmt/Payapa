@@ -52,6 +52,69 @@
     <string name="suggestion_high">Your stress level is high. Use our music, task features, articles, and diary to help you unwind and regain focus.</string>
     <string name="suggestion_severe">Your stress level is severe. We highly recommend using our consultation feature.</string>
 
+    <string-array name="gender_array">
+        <item>Select Gender</item>
+        <item>Male</item>
+        <item>Female</item>
+        <item>Prefer not to say</item>
+    </string-array>
 
+    <string-array name="course_array">
+        <item>Select Course</item>
+        <item>EdD in Educational Management</item>
+        <item>MAEd in Educational Management</item>
+        <item>MA in Early Childhood Education</item>
+        <item>MA in Special Education</item>
+        <item>MBA</item>
+        <item>MPA</item>
+        <item>MAN</item>
+        <item>JD</item>
+        <item>BSA</item>
+        <item>BSBA in Financial Management</item>
+        <item>BSBA in HRM</item>
+        <item>BSBA in Marketing Management</item>
+        <item>BSBA in Management Accounting</item>
+        <item>BSOA</item>
+        <item>BA in Communication</item>
+        <item>BEEd</item>
+        <item>BECEd</item>
+        <item>BSNEd</item>
+        <item>BSEd in English</item>
+        <item>BSEd in Filipino</item>
+        <item>BSEd in Mathematics</item>
+        <item>BSEd in Science</item>
+        <item>BSEd in Social Studies</item>
+        <item>BPEd</item>
+        <item>BCEd</item>
+        <item>BSPsych</item>
+        <item>BSSW</item>
+        <item>BSMid</item>
+        <item>BSP</item>
+        <item>BSHM</item>
+        <item>BSTM</item>
+        <item>BSA</item>
+        <item>BSCE</item>
+        <item>BSEE</item>
+        <item>BSCoE</item>
+        <item>BSEnggE</item>
+        <item>BSIT</item>
+        <item>BLIS</item>
+        <item>BSCrim</item>
+        <item>Caregiving NC II</item>
+        <item>Housekeeping NC II</item>
+        <item>Bookkeeping NC III</item>
+        <item>F&amp;B Services NC II</item>
+        <item>Bread &amp; Pastry Production NC II</item>
+        <item>Computer Systems Servicing NC II</item>
+    </string-array>
+
+
+    <string-array name="year_array">
+        <item>Select Year Level</item>
+        <item>First Year</item>
+        <item>Second Year</item>
+        <item>Third Year</item>
+        <item>Fourth Year</item>
+    </string-array>
 
 </resources>

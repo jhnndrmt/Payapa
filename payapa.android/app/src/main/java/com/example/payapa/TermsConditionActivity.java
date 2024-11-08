@@ -18,11 +18,6 @@ public class TermsConditionActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_terms_and_condition);
 
-        acceptButton = findViewById(R.id.acceptTerms);
-        acceptButton.setOnClickListener(v -> {
-            startActivity(new Intent(TermsConditionActivity.this, HomepageActivity.class));
-        });
-
         WebView webView = findViewById(R.id.webview);
         webView.getSettings().setJavaScriptEnabled(true); // Enable JavaScript if needed
         webView.setWebViewClient(new WebViewClient()); // Use default WebViewClient
