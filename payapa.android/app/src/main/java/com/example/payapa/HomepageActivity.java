@@ -116,6 +116,7 @@ public class HomepageActivity extends AppCompatActivity {
                     Boolean notify = document.getBoolean("notify");
                     if (notify != null && notify) {
                         showNotification();  // Show the notification if 'notify' is true
+                        userDocRef.update("notify", false);
                     }
                 }
             } else {
