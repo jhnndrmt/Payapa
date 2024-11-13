@@ -14,10 +14,13 @@ public class User {
     private String year;
     private int studentId;
     private String username;
+    private String department;
+    private String role;
+
 
     public User(String firstName, String middleName, String lastName, String age, String homeAddress,
                 String contactNumber, String emailAddress, String fbLink, String gender, String course,
-                String year, int studentId, String username) {
+                String year, int studentId, String username, String department, String role) {
         this.firstName = firstName;
         this.middleName = middleName;
         this.lastName = lastName;
@@ -31,6 +34,8 @@ public class User {
         this.year = year;
         this.studentId = studentId;
         this.username = username;
+        this.department = department;
+        this.role = role;
     }
 
     // Getters and setters for all fields including studentId
@@ -136,5 +141,21 @@ public class User {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    public String getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(String department) {
+        this.role = department;
     }
 }

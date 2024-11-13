@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -34,6 +35,8 @@ public class AccountAdditionalCreation extends AppCompatActivity {
         Spinner genderSpinner = findViewById(R.id.gender_spinner);
         Spinner courseSpinner = findViewById(R.id.course_spinner);
         Spinner yearSpinner = findViewById(R.id.year_spinner);
+        Spinner roleSpinner = findViewById(R.id.role_spinner);
+        Spinner departmentSpinner = findViewById(R.id.department_spinner);
 
         // Populate gender dropdown
         ArrayAdapter<CharSequence> genderAdapter = new ArrayAdapter<CharSequence>(this,
@@ -104,6 +107,79 @@ public class AccountAdditionalCreation extends AppCompatActivity {
         yearAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         yearSpinner.setAdapter(yearAdapter);
 
+        ArrayAdapter<CharSequence> roleAdapter = new ArrayAdapter<CharSequence>(this,
+                android.R.layout.simple_spinner_item, getResources().getStringArray(R.array.role_array)) {
+            @Override
+            public boolean isEnabled(int position) {
+                return position != 0; // Disable the default "Select User Role"
+            }
+
+            @Override
+            public View getDropDownView(int position, View convertView, ViewGroup parent) {
+                View view = super.getDropDownView(position, convertView, parent);
+                if (position == 0) {
+                    // Make the default item "Select User Role" gray and unselectable
+                    ((TextView) view).setTextColor(getResources().getColor(android.R.color.darker_gray));
+                } else {
+                    ((TextView) view).setTextColor(getResources().getColor(android.R.color.black));
+                }
+                return view;
+            }
+        };
+        roleAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        roleSpinner.setAdapter(roleAdapter);
+
+        ArrayAdapter<CharSequence> departmentAdapter = new ArrayAdapter<CharSequence>(this,
+                android.R.layout.simple_spinner_item, getResources().getStringArray(R.array.department_array)) {
+            @Override
+            public boolean isEnabled(int position) {
+                return position != 0; // Disable the default "Select Department"
+            }
+
+            @Override
+            public View getDropDownView(int position, View convertView, ViewGroup parent) {
+                View view = super.getDropDownView(position, convertView, parent);
+                if (position == 0) {
+                    // Make the default item "Select Department" gray and unselectable
+                    ((TextView) view).setTextColor(getResources().getColor(android.R.color.darker_gray));
+                } else {
+                    ((TextView) view).setTextColor(getResources().getColor(android.R.color.black));
+                }
+                return view;
+            }
+        };
+        departmentAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        departmentSpinner.setAdapter(departmentAdapter);
+
+        roleSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String selectedRole = roleSpinner.getSelectedItem().toString();
+
+                // Update the visibility based on the selected role
+                if (selectedRole.equals("Student")) {
+                    yearSpinner.setVisibility(View.VISIBLE);
+                    courseSpinner.setVisibility(View.VISIBLE);
+                    departmentSpinner.setVisibility(View.GONE);
+                } else if (selectedRole.equals("Personnel") || selectedRole.equals("Faculty")) {
+                    yearSpinner.setVisibility(View.GONE);
+                    courseSpinner.setVisibility(View.GONE);
+                    departmentSpinner.setVisibility(View.VISIBLE);
+                } else {
+                    // For any other roles, you can hide all or set them as needed
+                    yearSpinner.setVisibility(View.GONE);
+                    courseSpinner.setVisibility(View.GONE);
+                    departmentSpinner.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // Optionally handle the case where nothing is selected
+            }
+        });
+
+
         String firstNameInput = getIntent().getStringExtra("firstName");
         String middleNameInput = getIntent().getStringExtra("middleName");
         String lastNameInput = getIntent().getStringExtra("lastName");
@@ -114,6 +190,8 @@ public class AccountAdditionalCreation extends AppCompatActivity {
                 String selectedGender = genderSpinner.getSelectedItem().toString();
                 String selectedCourse = courseSpinner.getSelectedItem().toString();
                 String selectedYear = yearSpinner.getSelectedItem().toString();
+                String selectedRole = roleSpinner.getSelectedItem().toString();
+                String selectedDepartment = departmentSpinner.getSelectedItem().toString();
 
                 if (ageInput.getText().toString().isEmpty() ||
                         homeAddress.getText().toString().isEmpty() ||
@@ -122,7 +200,9 @@ public class AccountAdditionalCreation extends AppCompatActivity {
                         fbLink.getText().toString().isEmpty()) {
                     Toast.makeText(AccountAdditionalCreation.this, "Please fill out all fields", Toast.LENGTH_SHORT).show();
                 }
-                else if (selectedGender.equals("Select Gender") || selectedCourse.equals("Select Course") || selectedYear.equals("Select Year Level")) {
+                else if (selectedGender.equals("Select Gender") || selectedRole.equals("Select User Role") ||
+                        (selectedRole.equals("Student") && (selectedCourse.equals("Select Course") || selectedYear.equals("Select Year Level"))) ||
+                        ((selectedRole.equals("Personnel") || selectedRole.equals("Faculty")) && selectedDepartment.equals("Select Department"))) {
                     Toast.makeText(AccountAdditionalCreation.this, "Please select a valid option for all fields", Toast.LENGTH_SHORT).show();
                 } else {
                     Intent intent = new Intent(AccountAdditionalCreation.this, AccountCreationRegistration.class);
@@ -136,8 +216,14 @@ public class AccountAdditionalCreation extends AppCompatActivity {
                     intent.putExtra("emailAddress", emailAddress.getText().toString());
                     intent.putExtra("fbLink", fbLink.getText().toString());
                     intent.putExtra("gender", selectedGender);
-                    intent.putExtra("course", selectedCourse);
-                    intent.putExtra("year", selectedYear);
+                    intent.putExtra("role", selectedRole);
+
+                    if (selectedRole.equals("Student")) {
+                        intent.putExtra("course", selectedCourse);
+                        intent.putExtra("year", selectedYear);
+                    } else if (selectedRole.equals("Personnel") || selectedRole.equals("Faculty")) {
+                        intent.putExtra("department", selectedDepartment);
+                    }
 
                     startActivity(intent);
                 }

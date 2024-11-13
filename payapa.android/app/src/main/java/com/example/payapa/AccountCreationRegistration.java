@@ -76,8 +76,26 @@ public class AccountCreationRegistration extends AppCompatActivity {
         String emailAddress = intent.getStringExtra("emailAddress");
         String fbLink = intent.getStringExtra("fbLink");
         String gender = intent.getStringExtra("gender");
-        String course = intent.getStringExtra("course");
-        String year = intent.getStringExtra("year");
+        String role = intent.getStringExtra("role");
+
+        String course;
+        String year;
+        String department;
+
+        // Initialize based on role
+        if (role.equals("Student")) {
+            department = null;
+            course = intent.getStringExtra("course");
+            year = intent.getStringExtra("year");
+        } else {
+            course = null;
+            year = null;
+            if (role.equals("Personnel") || role.equals("Faculty")) {
+                department = intent.getStringExtra("department");
+            } else {
+                department = null;
+            }
+        }
 
         registerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -115,8 +133,14 @@ public class AccountCreationRegistration extends AppCompatActivity {
                             if (task.isSuccessful()) {
                                 String uid = mAuth.getCurrentUser().getUid();
 
-                                User newUser = new User(firstName, middleName, lastName, age, homeAddress, contactNumber,
-                                        emailAddress, fbLink, gender, course, year, studentId, username);
+                                User newUser;
+                                if (role.equals("Student")) {
+                                    newUser = new User(firstName, middleName, lastName, age, homeAddress, contactNumber,
+                                            emailAddress, fbLink, gender, course, year, studentId, username, null, role);
+                                } else {
+                                    newUser = new User(firstName, middleName, lastName, age, homeAddress, contactNumber,
+                                            emailAddress, fbLink, gender, null, null, studentId, username, department, role);
+                                }
 
                                 db.collection("users").document(uid).set(newUser)
                                         .addOnSuccessListener(aVoid -> {
