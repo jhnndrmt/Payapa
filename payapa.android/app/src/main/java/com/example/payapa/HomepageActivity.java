@@ -86,14 +86,32 @@ public class HomepageActivity extends AppCompatActivity {
         camera.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                String currentUserUid = mAuth.getCurrentUser().getUid();
 
-
-                if (cameraIntent.resolveActivity(getPackageManager()) != null) {
-                    startActivityForResult(cameraIntent, CAMERA_REQUEST_CODE);
-                }
+                DocumentReference userDocRef = db.collection("users").document(currentUserUid);
+                userDocRef.get().addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        DocumentSnapshot document = task.getResult();
+                        if (document != null && document.exists()) {
+                            Boolean isApproved = document.getBoolean("isApproved");
+                            if (isApproved != null && isApproved) {
+                                Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                                if (cameraIntent.resolveActivity(getPackageManager()) != null) {
+                                    startActivityForResult(cameraIntent, CAMERA_REQUEST_CODE);
+                                }
+                            } else {
+                                Toast.makeText(HomepageActivity.this, "Your permission is pending", Toast.LENGTH_SHORT).show();
+                            }
+                        } else {
+                            Toast.makeText(HomepageActivity.this, "User document not found", Toast.LENGTH_SHORT).show();
+                        }
+                    } else {
+                        Toast.makeText(HomepageActivity.this, "Error checking approval status", Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         });
+
 
         handleBackPress();
     }
