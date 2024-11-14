@@ -11,25 +11,28 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.cardview.widget.CardView;
 
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestoreException;
-import androidx.annotation.NonNull;
-
-import java.util.Map;
+import com.google.firebase.firestore.QuerySnapshot;
 
 public class ScheduledAppointmentActivity extends AppCompatActivity {
     private FirebaseFirestore db;
     private FirebaseAuth mAuth;
     private FirebaseUser currentUser;
-    private TextView schedDate, schedTime, schedMessage, noAppointmentText;
-    private androidx.cardview.widget.CardView appointmentCard;
+    private TextView noAppointmentText;
+    private LinearLayout appointmentsContainer;
     private ProgressBar loadingIndicator;
+    private Button acceptBtn, declineBtn;
 
-    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,11 +43,8 @@ public class ScheduledAppointmentActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
 
-        schedDate = findViewById(R.id.scheduledDate);
-        schedTime = findViewById(R.id.scheduledTime);
-        schedMessage = findViewById(R.id.appointmentMessage);
         noAppointmentText = findViewById(R.id.noAppointmentText);
-        appointmentCard = findViewById(R.id.appointmentCard);
+        appointmentsContainer = findViewById(R.id.appointmentsContainer);
         loadingIndicator = findViewById(R.id.loadingIndicator);
 
         if (currentUser != null) {
@@ -52,41 +52,76 @@ public class ScheduledAppointmentActivity extends AppCompatActivity {
             Log.d("UserId", "User ID: " + userId);
 
             loadingIndicator.setVisibility(View.VISIBLE);
-            appointmentCard.setVisibility(View.GONE);
             noAppointmentText.setVisibility(View.GONE);
 
-            // Access the user's scheduled appointments document by userId
             db.collection("scheduledAppointments")
                     .document(userId)
+                    .collection("appointments")
                     .get()
                     .addOnCompleteListener(task -> {
-                        Log.d("ScheduledAppointments", "User ID: " + userId);
-                        if (task.isSuccessful()) {
+                        loadingIndicator.setVisibility(View.GONE);
 
-                            DocumentSnapshot document = task.getResult();
-                            if (document.exists()) {
-                                appointmentCard.setVisibility(View.VISIBLE);
-                                noAppointmentText.setVisibility(View.GONE);
+                        if (task.isSuccessful() && task.getResult() != null) {
+                            QuerySnapshot querySnapshot = task.getResult();
+                            if (!querySnapshot.isEmpty()) {
+                                appointmentsContainer.removeAllViews();
 
-                                String date = document.getString("date");
-                                String time = document.getString("time");
-                                String appointmentMessage = document.getString("message");
+                                for (DocumentSnapshot document : querySnapshot.getDocuments()) {
+                                    String date = document.getString("date");
+                                    String time = document.getString("time");
+                                    String message = document.getString("message");
+                                    String documentId = document.getId();
 
-                                schedDate.setText("Date: " + date);
-                                schedTime.setText("Time: " + time);
-                                schedMessage.setText("Message: " + appointmentMessage);
-                            }  else {
-                                // Display 'No Appointment' message
-                                appointmentCard.setVisibility(View.GONE);
+                                    addAppointmentCard(date, time, message, documentId);
+                                }
+                            } else {
                                 noAppointmentText.setVisibility(View.VISIBLE);
-                                loadingIndicator.setVisibility(View.GONE);
-
-                                Log.d("ScheduledAppointment", "No appointments found for the user");
                             }
                         } else {
                             Log.e("ScheduledAppointment", "Error fetching data", task.getException());
                         }
                     });
+        }
+    }
+
+    private void addAppointmentCard(String date, String time, String message, String documentId) {
+        View cardView = LayoutInflater.from(this).inflate(R.layout.card_appointment, appointmentsContainer, false);
+
+        TextView schedDate = cardView.findViewById(R.id.scheduledDate);
+        TextView schedTime = cardView.findViewById(R.id.scheduledTime);
+        TextView schedMessage = cardView.findViewById(R.id.appointmentMessage);
+        Button acceptBtn = cardView.findViewById(R.id.accept_btn);
+        Button declineBtn = cardView.findViewById(R.id.decline_btn);
+
+        schedDate.setText("Date: " + date);
+        schedTime.setText("Time: " + time);
+        schedMessage.setText("Message: " + message);
+
+        acceptBtn.setOnClickListener(v -> {
+            updateResponseField(documentId, "Accepted");
+        });
+
+        declineBtn.setOnClickListener(v -> {
+            updateResponseField(documentId, "Declined");
+            Toast.makeText(ScheduledAppointmentActivity.this,
+                    "Please set another appointment and specify your availability.",
+                    Toast.LENGTH_LONG).show();
+        });
+
+        appointmentsContainer.addView(cardView);
+    }
+
+
+    private void updateResponseField(String documentId, String response) {
+        if (currentUser != null) {
+            String userId = currentUser.getUid();
+            db.collection("scheduledAppointments")
+                    .document(userId)
+                    .collection("appointments")
+                    .document(documentId)
+                    .update("respond", response)
+                    .addOnSuccessListener(aVoid -> Log.d("Firestore", "Response updated successfully"))
+                    .addOnFailureListener(e -> Log.e("Firestore", "Error updating response", e));
         }
     }
 }
