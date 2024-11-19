@@ -105,6 +105,9 @@ public class ScheduledAppointmentActivity extends AppCompatActivity {
 
         acceptBtn.setOnClickListener(v -> {
             updateResponseField(documentId, "Accepted");
+            Toast.makeText(ScheduledAppointmentActivity.this,
+                    "Appointment Accepted!",
+                    Toast.LENGTH_LONG).show();
         });
 
         declineBtn.setOnClickListener(v -> {
