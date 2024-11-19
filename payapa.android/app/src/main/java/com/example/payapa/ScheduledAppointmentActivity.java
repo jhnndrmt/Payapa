@@ -67,6 +67,12 @@ public class ScheduledAppointmentActivity extends AppCompatActivity {
                                 appointmentsContainer.removeAllViews();
 
                                 for (DocumentSnapshot document : querySnapshot.getDocuments()) {
+                                    String respond = document.getString("respond");
+
+                                    if ("Accepted".equalsIgnoreCase(respond) || "Decline".equalsIgnoreCase(respond)) {
+                                        continue;
+                                    }
+
                                     String date = document.getString("date");
                                     String time = document.getString("time");
                                     String message = document.getString("message");
