@@ -20,4 +20,7 @@
     <color name="dblue">#638AB5</color>
     <color name="light_white">#F5F5F5</color>
     <color name="shadow_color">#81000000</color>
+
+    <color name="activeButtonColor">#4CAF50</color>
+    <color name="inactiveButtonColor">#D3D3D3</color>
 </resources>

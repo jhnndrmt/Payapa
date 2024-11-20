@@ -67,11 +67,7 @@ public class ScheduledAppointmentActivity extends AppCompatActivity {
                                 appointmentsContainer.removeAllViews();
 
                                 for (DocumentSnapshot document : querySnapshot.getDocuments()) {
-                                    String respond = document.getString("respond");
 
-                                    if ("Accepted".equalsIgnoreCase(respond) || "Decline".equalsIgnoreCase(respond)) {
-                                        continue;
-                                    }
 
                                     String date = document.getString("date");
                                     String time = document.getString("time");
@@ -103,22 +99,58 @@ public class ScheduledAppointmentActivity extends AppCompatActivity {
         schedTime.setText("Time: " + time);
         schedMessage.setText("Message: " + message);
 
-        acceptBtn.setOnClickListener(v -> {
-            updateResponseField(documentId, "Accepted");
-            Toast.makeText(ScheduledAppointmentActivity.this,
-                    "Appointment Accepted!",
-                    Toast.LENGTH_LONG).show();
-        });
+        // Fetch the response field from Firestore
+        db.collection("scheduledAppointments")
+                .document(currentUser.getUid())
+                .collection("appointments")
+                .document(documentId)
+                .get()
+                .addOnSuccessListener(documentSnapshot -> {
+                    if (documentSnapshot.exists()) {
+                        String response = documentSnapshot.getString("respond");
 
-        declineBtn.setOnClickListener(v -> {
-            updateResponseField(documentId, "Declined");
-            Toast.makeText(ScheduledAppointmentActivity.this,
-                    "Please set another appointment and specify your availability.",
-                    Toast.LENGTH_LONG).show();
-        });
+                        // Set button states based on the response
+                        if ("Accepted".equals(response)) {
+                            acceptBtn.setEnabled(false);
+                            declineBtn.setEnabled(true);
+                            acceptBtn.setBackgroundColor(getResources().getColor(R.color.activeButtonColor));
+                            declineBtn.setBackgroundColor(getResources().getColor(R.color.inactiveButtonColor));
+                        } else if ("Declined".equals(response)) {
+                            acceptBtn.setEnabled(true);
+                            declineBtn.setEnabled(false);
+                            acceptBtn.setBackgroundColor(getResources().getColor(R.color.inactiveButtonColor));
+                            declineBtn.setBackgroundColor(getResources().getColor(R.color.activeButtonColor));
+                        }
+                    }
+                });
+
+        // Button click listener
+        View.OnClickListener responseClickListener = v -> {
+            boolean isAcceptButton = (v.getId() == R.id.accept_btn);
+            String response = isAcceptButton ? "Accepted" : "Declined";
+
+            // Update response in Firestore
+            updateResponseField(documentId, response);
+
+            // Activate the selected button and disable the other
+            acceptBtn.setEnabled(!isAcceptButton);
+            declineBtn.setEnabled(isAcceptButton);
+
+            // Change appearance for active and inactive buttons
+            acceptBtn.setBackgroundColor(getResources().getColor(
+                    isAcceptButton ? R.color.activeButtonColor : R.color.inactiveButtonColor));
+            declineBtn.setBackgroundColor(getResources().getColor(
+                    isAcceptButton ? R.color.inactiveButtonColor : R.color.activeButtonColor));
+        };
+
+        // Assign listener to buttons
+        acceptBtn.setOnClickListener(responseClickListener);
+        declineBtn.setOnClickListener(responseClickListener);
 
         appointmentsContainer.addView(cardView);
     }
+
+
 
 
     private void updateResponseField(String documentId, String response) {
