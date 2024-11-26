@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { firestore } from "../services/Firebase";
-import { doc, setDoc } from "firebase/firestore";
+import { doc, setDoc, getDoc } from "firebase/firestore";
 
 const useSaveAppointment = () => {
   const [loading, setLoading] = useState(false);
@@ -11,15 +11,27 @@ const useSaveAppointment = () => {
     setError(null);
 
     try {
-      const userDoc = doc(
+      // Fetch user data based on userId to get the name
+      const userDocRef = doc(firestore, "users", appointmentData.userId);
+      const userDoc = await getDoc(userDocRef);
+
+      if (!userDoc.exists()) {
+        throw new Error("User not found");
+      }
+
+      const userData = userDoc.data();
+      const fullName = `${userData.firstName} ${userData.lastName}`;
+
+      const appointmentDocRef = doc(
         firestore,
         "scheduledAppointments",
         appointmentData.userId
       );
 
       await setDoc(
-        userDoc,
+        appointmentDocRef,
         {
+          name: fullName,  // Add fetched name here
           date: appointmentData.date,
           time: appointmentData.time,
           message: appointmentData.message,

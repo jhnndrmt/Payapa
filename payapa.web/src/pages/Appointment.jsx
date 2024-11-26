@@ -45,28 +45,27 @@ function Appointments() {
         toast.error("Please fill in all the fields.");
         return;
       }
-
+  
       const appointmentData = {
-        userId: selectedUser.uid,
+        name: `${selectedUser.firstName} ${selectedUser.lastName}`,
         date: appointmentDate,
         time: appointmentTime,
         message: appointmentMessage,
+        userId: selectedUser.uid, // Ensure userId is included
       };
-
+  
       const success = await saveAppointment(appointmentData);
       if (success) {
-        toast.success("The appointment has been successfully scheduled");
-        setShowAppointmentForm(false);
+        // Clear form inputs
         setAppointmentDate("");
         setAppointmentTime("");
         setAppointmentMessage("");
-      } else if (savingError) {
-        toast.error("Failed to save appointment. Please try again.");
       }
     } else {
       toast.error("Please select a user to schedule an appointment.");
     }
   };
+  
   return (
     <>
       <Container className="mt-5">

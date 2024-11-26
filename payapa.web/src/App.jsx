@@ -13,8 +13,9 @@ import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 import Student from "./pages/Students";
 import Appointments from "./pages/Appointment";
+import Schedule from "./pages/Schedule"; // Import the Schedule component
 
-import NavigationBar from "./components/NavBar";
+import NavigationBar from "./components/Navbar";
 import PrivateRoute from "./components/PrivateRoute";
 
 function AppContent() {
@@ -49,6 +50,14 @@ function AppContent() {
           element={
             <PrivateRoute>
               <Appointments />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/schedule"
+          element={
+            <PrivateRoute>
+              <Schedule />
             </PrivateRoute>
           }
         />

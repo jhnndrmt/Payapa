@@ -91,7 +91,14 @@ function NavigationBar() {
               active={location.pathname === "/appointments"}
             >
               Appointments
-            </Nav.Link>{" "}
+            </Nav.Link>
+            <Nav.Link
+              as={Link}
+              to="/schedule"
+              active={location.pathname === "/schedule"}
+            >
+              Schedule
+            </Nav.Link>
           </Nav>
           <OverlayTrigger trigger="click" placement="bottom" overlay={popover}>
             <Navbar.Text className="logout-mobile">
